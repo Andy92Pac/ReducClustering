@@ -18,3 +18,4 @@ coil.label <- coil$y
 pca.coil <- PCA(coil.data)
 
 # Q4 : NbClust
+NbClust(data = coil.data, method = )
