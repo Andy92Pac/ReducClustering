@@ -1,0 +1,85 @@
+---
+title: "Rapport"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Plan
+
+1. Introduction
+2. Exploration des données
+
+3. Analyse des données
+   + 3.1 Pré-traitement des données 
+   
+   + 3.2 Méthode de clustering : Calcul des centres des classes avec kmeans
+     + 3.2.1 Prédiction et performances avec Random Forest
+     + 3.2.2 Prédiction et performances avec Rpart
+     + 3.2.3 Prédiction et performances avec LDA
+     
+   + 3.3 Oversampling
+     + 3.3.1 Benchmark de performances
+     
+   + 3.4 Undersampling
+     + 3.4.1 Benchmark de performances
+     
+   + 3.5 Over et Under
+     + 3.5.1 Benchmark de performances
+     
+   + 3.6 Méthode Hybride : Undersampling et Kmeans
+     + 3.6.1 Benchmark de performances
+   
+4. Conclusion
+
+ 
+
+***
+> Librairies
+
+```{r, LibraryCheck, message=FALSE, warning=FALSE}
+library(R.matlab)
+library(FactoMineR)
+library(NbClust)
+```
+
+Rappel : Ce projet a pour but de faire de la détection de fraude sur un jeu de données concernant des transactions de carte de crédit.
+
+## 1. Introduction 
+
+Jeu de données : 
+ coil 
+ Jaffe
+ MFEAT1
+ MNISTS
+
+***
+
+## 2. Chargement des données
+
+Chargement des données
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+coil <- readMat("data/DATA_MATLAB - Projet-master-MLDS/COIL20_1440n_1024d_20c.mat")
+jaffe <- readMat("data/DATA_MATLAB - Projet-master-MLDS/jaffe.mat")
+mnist <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MNIST5.mat")
+mfeat <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MFEAT1.mat")
+```
+
+***
+
+## 3. Analyse en composante principale
+
+Coil data
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+pca.coil <- PCA(coil.data)
+```
+
+## 4. Clustering avec package Nbclust 
+
+Coil data 
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+NbClust(data = coil.data, method = "kmeans" )
+```
