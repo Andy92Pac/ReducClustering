@@ -2,6 +2,8 @@ library(R.matlab)
 library(FactoMineR)
 library(NbClust)
 library(kernlab)
+library(Rmixmod)
+library(mclust)
 
 coil <- readMat("data/DATA_MATLAB - Projet-master-MLDS/COIL20_1440n_1024d_20c.mat")
 jaffe <- readMat("data/DATA_MATLAB - Projet-master-MLDS/jaffe.mat")
@@ -42,6 +44,12 @@ HCPC(pca.coil)
 n.cluster.coil = 9
 spect.coil = specc(x = coil.data, n.cluster.coil)
 
+#7
+# mclust
+mclust.coil = Mclust(coil.data)
+# mixmod
+mixmodCluster(coil.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+
 
 ##########
 ###jaffe###
@@ -77,6 +85,11 @@ HCPC(pca.jaffe)
 n.cluster.jaffe = 9
 spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 
+#7
+# mclust
+mclust.jaffe = Mclust(jaffe.data)
+# mixmod
+mixmodCluster(jaffe.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
 
 
 ##########
@@ -113,7 +126,11 @@ HCPC(pca.mnist)
 n.cluster.mnist = 9
 spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 
-
+#7
+# mclust
+mclust.mnist = Mclust(mnist.data)
+# mixmod
+mixmodCluster(mnist.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
 
 ##########
 ###mfeat###
@@ -149,3 +166,8 @@ HCPC(pca.mfeat)
 n.cluster.mfeat = 9
 spect.mfeat = specc(x = mnist.data, n.cluster.mfeat)
 
+#7
+# mclust
+mclust.mfeat = Mclust(mfeat.data)
+# mixmod
+mixmodCluster(mfeat.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
