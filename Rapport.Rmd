@@ -7,32 +7,22 @@ output:
 
 ## Plan
 
+Partie I : Commun à toutes les données
+
 1. Introduction
 2. Exploration des données
 
-3. Analyse des données
-   + 3.1 Pré-traitement des données 
-   
-   + 3.2 Méthode de clustering : Calcul des centres des classes avec kmeans
-     + 3.2.1 Prédiction et performances avec Random Forest
-     + 3.2.2 Prédiction et performances avec Rpart
-     + 3.2.3 Prédiction et performances avec LDA
-     
-   + 3.3 Oversampling
-     + 3.3.1 Benchmark de performances
-     
-   + 3.4 Undersampling
-     + 3.4.1 Benchmark de performances
-     
-   + 3.5 Over et Under
-     + 3.5.1 Benchmark de performances
-     
-   + 3.6 Méthode Hybride : Undersampling et Kmeans
-     + 3.6.1 Benchmark de performances
-   
-4. Conclusion
+Partie II : Spécifique à chaque jeu de données
 
- 
+3. Analyse en composante principale
+4. Clustering avec package Nbclust
+5. Clustering à partir des deux premère composantes
+6. Spectral clustering
+7. Proposition d'un nombre de classes
+8. Modèle de mélange
+9. MclustDR
+10. Etudes comparatives des performances
+11. Cluspa
 
 ***
 > Librairies
@@ -47,11 +37,17 @@ Rappel : Ce projet a pour but de faire de la détection de fraude sur un jeu de 
 
 ## 1. Introduction 
 
-Jeu de données : 
- coil 
- Jaffe
- MFEAT1
- MNISTS
+Description des jeu de données : 
+
+Columbia University Image Library (Coil20 Processed) : Base de données contenant 1440 images de 20 objets différents pris sous différents angles. Ce jeu de données est composé de 1440 observations et 1024 variables
+
+Japanese Female Facial Expression (JAFFE) : Base de données contenant 213 photos de 10 femmes représentant 6 émotions (+1 neutre). Ce jeu de données est composé de 213 observations et 676 variables.
+
+Multi-Feature digit (MFEAT1) : Cet ensemble de données est constitué de caractéristiques de chiffres manuscrits (0 à 9)
+extrait d'une collection de cartes d'utilité néerlandaises. 200 motifs par
+classe (pour un total de 2 000 modèles) ont été numérisés en binaire. Ce jeu données est composé de 2000 observations et 240 variables.
+
+Mixed National Institute of Standards and Technology (MNIST) : La base MNIST est devenu un test standard1. Elle regroupe 60.000 images d'apprentissage et 10.000 images de test, issues d'une base de données antérieure, appelée simplement NIST1. Ce sont des images en noir et blanc, normalisées centrées de 28 pixels de côté. Ce jeu de données (réduit) est composé de 3495 observations et 784 variables.
 
 ***
 
@@ -66,20 +62,302 @@ mnist <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MNIST5.mat")
 mfeat <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MFEAT1.mat")
 ```
 
-***
+Division en data et label 
+
+```{r}
+coil.data <- coil$X
+coil.label <- coil$y
+
+jaffe.data <- jaffe$X
+jaffe.label <- jaffe$y
+
+mfeat.data <- mfeat$X
+mfeat.label <- mfeat$y
+
+mnist.data <- mnist$X
+mnist.label <- mnist$y
+```
+
 
 ## 3. Analyse en composante principale
 
-Coil data
+Coil data 
+
+Obs : 
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
 pca.coil <- PCA(coil.data)
 ```
 
+***
+
+Jaffe data
+
+Obs : 
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+pca.jaffe <- PCA(jaffe.data)
+```
+
+***
+
+Mnist data
+
+Obs : 
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+pca.mnist <- PCA(mnist.data)
+```
+
+***
+
+Mfeat data
+
+Obs : 
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+pca.mfeat <- PCA(mfeat.data)
+```
+
 ## 4. Clustering avec package Nbclust 
+
+Coil data
+
+Obs : 
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+kmeans.coil = NbClust(data = coil.data, method = "kmeans")
+kmeans.coil.part = kmeans.coil$Best.partition
+
+average.coil =NbClust(data = coil.data, method = "average")
+average.coil.part =average.coil$Best.partition
+
+ward.coil = NbClust(data = coil.data, method = "ward.D")
+ward.coil.part = ward.coil$Best.partition
+
+single.coil = NbClust(data = coil.data, method = "single")
+single.coil.part = single.coil$Best.partition
+
+complete.coil = NbClust(data = coil.data, method = "complete")
+complete.coil.part = complete.coil$Best.partition
+```
+
+***
+
+jaffe data 
+
+Obs : 
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+kmeans.jaffe = NbClust(data = jaffe.data, method = "kmeans")
+kmeans.jaffe.part = kmeans.jaffe$Best.partition
+
+average.jaffe =NbClust(data = jaffe.data, method = "average")
+average.jaffe.part =average.jaffe$Best.partition
+
+ward.jaffe = NbClust(data = jaffe.data, method = "ward.D")
+ward.jaffe.part = ward.jaffe$Best.partition
+
+single.jaffe = NbClust(data = jaffe.data, method = "single")
+single.jaffe.part = single.jaffe$Best.partition
+
+complete.jaffe = NbClust(data = jaffe.data, method = "complete")
+complete.jaffe.part = complete.jaffe$Best.partition
+```
+
+***
+
+mfeat data 
+
+Obs : 
+
+```{r}
+kmeans.mfeat = NbClust(data = mfeat.data, method = "kmeans")
+kmeans.mfeat.part = kmeans.mfeat$Best.partition
+
+average.mfeat =NbClust(data = mfeat.data, method = "average")
+average.mfeat.part =average.mfeat$Best.partition
+
+ward.mfeat = NbClust(data = mfeat.data, method = "ward.D")
+ward.mfeat.part = ward.mfeat$Best.partition
+
+single.mfeat = NbClust(data = mfeat.data, method = "single")
+single.mfeat.part = single.mfeat$Best.partition
+
+complete.mfeat = NbClust(data = mfeat.data, method = "complete")
+complete.mfeat.part = complete.mfeat$Best.partition
+```
+
+***
+
+mnist data 
+
+Obs : 
+
+```{r}
+kmeans.mnist = NbClust(data = mnist.data, method = "kmeans")
+kmeans.mnist.part = kmeans.mnist$Best.partition
+
+average.mnist =NbClust(data = mnist.data, method = "average")
+average.mnist.part =average.mnist$Best.partition
+
+ward.mnist = NbClust(data = mnist.data, method = "ward.D")
+ward.mnist.part = ward.mnist$Best.partition
+
+single.mnist = NbClust(data = mnist.data, method = "single")
+single.mnist.part = single.mnist$Best.partition
+
+complete.mnist = NbClust(data = mnist.data, method = "complete")
+complete.mnist.part = complete.mnist$Best.partition
+```
+
+
+## 5. Clustering à partir des deux premère composantes
 
 Coil data 
 
-```{r,results='hide',message=FALSE,warning=FALSE}
-NbClust(data = coil.data, method = "kmeans" )
+Obs : 
+
+```{r}
+HCPC(pca.coil)
 ```
+
+***
+
+Jaffe data 
+
+Obs : 
+
+```{r}
+HCPC(pca.jaffe)
+```
+
+***
+
+Mfeat data 
+
+Obs : 
+
+```{r}
+HCPC(pca.mfeat)
+```
+
+***
+
+Mnist data 
+
+Obs : 
+
+```{r}
+HCPC(pca.mnist)
+```
+
+
+## 6. Spectral clustering
+
+Coil data 
+
+Obs : 
+
+```{r}
+n.cluster.coil = 9
+spect.coil = specc(x = coil.data, n.cluster.coil)
+```
+
+***
+
+Jaffe data 
+
+Obs : 
+
+```{r}
+n.cluster.jaffe = 9
+spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
+```
+
+***
+
+Mfeat data 
+
+Obs : 
+
+```{r}
+n.cluster.mfeat = 9
+spect.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
+```
+
+***
+
+Mnist data 
+
+Obs : 
+
+```{r}
+n.cluster.mnist = 9
+spect.mnist = specc(x = mnist.data, n.cluster.mnist)
+```
+
+
+## 7. Proposition d'un nombre de classes
+
+Coil data 
+
+Proposition : 
+
+Jaffe data 
+
+Proposition : 
+
+Mfeat data 
+
+Proposition : 
+
+Mnist data 
+
+Proposition : 
+
+## 8. Modèle de mélange
+
+Coil data 
+
+Obs : 
+
+```{r}
+mclust.coil = Mclust(coil.data)
+```
+
+***
+
+Jaffe data 
+
+Obs : 
+
+```{r}
+n.cluster.jaffe = 9
+spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
+```
+
+***
+
+Mfeat data 
+
+Obs : 
+
+```{r}
+mclust.mfeat = Mclust(mfeat.data)
+```
+
+***
+
+Mnist data 
+
+Obs : 
+
+```{r}
+n.cluster.mnist = 9
+spect.mnist = specc(x = mnist.data, n.cluster.mnist)
+```
+
+## 9. MclustDR
+## 10. Etudes comparatives des performances
+## 11. Cluspa
