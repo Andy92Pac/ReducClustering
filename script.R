@@ -35,7 +35,7 @@ complete.coil.part = complete.coil$Best.partition
 
 
 #5
-
+HCPC(pca.coil)
 
 
 
@@ -68,7 +68,7 @@ complete.jaffe.part = complete.jaffe$Best.partition
 
 
 #5
-
+HCPC(pca.jaffe)
 
 
 
@@ -100,7 +100,7 @@ complete.mnist.part = complete.mnist$Best.partition
 
 
 #5
-
+HCPC(pca.mnist)
 
 
 ##########
@@ -131,7 +131,7 @@ complete.mfeat.part = complete.mfeat$Best.partition
 
 
 #5
-
+HCPC(pca.mfeat)
 
 
 
