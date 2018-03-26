@@ -45,10 +45,20 @@ n.cluster.coil = 9
 spect.coil = specc(x = coil.data, n.cluster.coil)
 
 #7
+
+
+
+
+#8
 # mclust
 mclust.coil = Mclust(coil.data)
 # mixmod
 mixmodCluster(coil.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+
+#9
+mclustdr.coil = MclustDR(mclust.coil)
+plot(mclustdr.coil)
+
 
 
 ##########
@@ -86,10 +96,19 @@ n.cluster.jaffe = 9
 spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 
 #7
+
+
+
+
+#8
 # mclust
 mclust.jaffe = Mclust(jaffe.data)
 # mixmod
 mixmodCluster(jaffe.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+
+#9
+mclustdr.jaffe = MclustDR(mclust.jaffe)
+plot(mclustdr.jaffe)
 
 
 ##########
@@ -127,10 +146,19 @@ n.cluster.mnist = 9
 spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 
 #7
+
+
+
+#8
 # mclust
 mclust.mnist = Mclust(mnist.data)
 # mixmod
 mixmodCluster(mnist.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+
+#9
+mclustdr.mnist = MclustDR(mclust.mnist)
+plot(mclustdr.mnist)
+
 
 ##########
 ###mfeat###
@@ -167,7 +195,24 @@ n.cluster.mfeat = 9
 spect.mfeat = specc(x = mnist.data, n.cluster.mfeat)
 
 #7
+
+
+
+#8
 # mclust
 mclust.mfeat = Mclust(mfeat.data)
 # mixmod
 mixmodCluster(mfeat.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+
+#9
+mclustdr.mfeat = MclustDR(mclust.mfeat)
+plot(mclustdr.mfeat)
+
+
+
+
+
+
+
+
+
