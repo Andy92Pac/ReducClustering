@@ -1,6 +1,7 @@
 library(R.matlab)
 library(FactoMineR)
 library(NbClust)
+library(kernlab)
 
 coil <- readMat("data/DATA_MATLAB - Projet-master-MLDS/COIL20_1440n_1024d_20c.mat")
 jaffe <- readMat("data/DATA_MATLAB - Projet-master-MLDS/jaffe.mat")
@@ -37,7 +38,9 @@ complete.coil.part = complete.coil$Best.partition
 #5
 HCPC(pca.coil)
 
-
+#6
+n.cluster.coil = 9
+spect.coil = specc(x = coil.data, n.cluster.coil)
 
 
 ##########
@@ -69,6 +72,10 @@ complete.jaffe.part = complete.jaffe$Best.partition
 
 #5
 HCPC(pca.jaffe)
+
+#6
+n.cluster.jaffe = 9
+spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 
 
 
@@ -102,6 +109,11 @@ complete.mnist.part = complete.mnist$Best.partition
 #5
 HCPC(pca.mnist)
 
+#6
+n.cluster.mnist = 9
+spect.mnist = specc(x = mnist.data, n.cluster.mnist)
+
+
 
 ##########
 ###mfeat###
@@ -133,5 +145,7 @@ complete.mfeat.part = complete.mfeat$Best.partition
 #5
 HCPC(pca.mfeat)
 
-
+#6
+n.cluster.mfeat = 9
+spect.mfeat = specc(x = mnist.data, n.cluster.mfeat)
 
