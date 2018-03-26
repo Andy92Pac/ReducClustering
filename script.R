@@ -18,4 +18,13 @@ coil.label <- coil$y
 pca.coil <- PCA(coil.data)
 
 # Q4 : NbClust
-NbClust(data = coil.data, method = )
+kmeans.coil = NbClust(data = coil.data, method = "kmeans")
+kmeans.coil.part = kmeans.coil$Best.partition
+
+average.coil =NbClust(data = coil.data, method = "average")
+average.coil.part =average.coil$Best.partition
+
+ward.coil = NbClust(data = coil.data, method = "ward.D")
+ward.coil.part = ward.coil$Best.partition
+
+single.coil = NbClust(data = coil.data, method = "single")
