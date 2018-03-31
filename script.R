@@ -21,19 +21,19 @@ coil.label <- coil$y
 pca.coil <- PCA(coil.data)
 
 # Q4 : NbClust
-kmeans.coil = NbClust(data = coil.data, method = "kmeans")
+kmeans.coil = NbClust(data = coil.data, method = "kmeans",min.nc = 5,max.nc = 10)
 kmeans.coil.part = kmeans.coil$Best.partition
 
-average.coil =NbClust(data = coil.data, method = "average")
+average.coil =NbClust(data = coil.data, method = "average",min.nc = 5,max.nc = 10)
 average.coil.part =average.coil$Best.partition
 
-ward.coil = NbClust(data = coil.data, method = "ward.D")
+ward.coil = NbClust(data = coil.data, method = "ward.D",min.nc = 5,max.nc = 10)
 ward.coil.part = ward.coil$Best.partition
 
-single.coil = NbClust(data = coil.data, method = "single")
+single.coil = NbClust(data = coil.data, method = "single",min.nc = 5,max.nc = 10)
 single.coil.part = single.coil$Best.partition
 
-complete.coil = NbClust(data = coil.data, method = "complete")
+complete.coil = NbClust(data = coil.data, method = "complete",min.nc = 5,max.nc = 10)
 complete.coil.part = complete.coil$Best.partition
 
 
@@ -41,7 +41,7 @@ complete.coil.part = complete.coil$Best.partition
 HCPC(pca.coil)
 
 #6
-n.cluster.coil = 9
+n.cluster.coil = 5
 spect.coil = specc(x = coil.data, n.cluster.coil)
 
 #7
@@ -53,7 +53,7 @@ spect.coil = specc(x = coil.data, n.cluster.coil)
 # mclust
 mclust.coil = Mclust(coil.data)
 # mixmod
-mixmodCluster(coil.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+mixmodCluster(as.data.frame(coil.data), 3:10, models = mixmodMultinomialModel("Binary_pk_Ekj"))
 
 #9
 mclustdr.coil = MclustDR(mclust.coil)
@@ -71,30 +71,40 @@ jaffe.label <- jaffe$y
 # Q3 : ACP
 pca.jaffe <- PCA(jaffe.data)
 
-# Q4 : NbClust
-kmeans.jaffe = NbClust(data = jaffe.data, method = "kmeans")
+#10 classes
+kmeans.jaffe = NbClust(jaffe$X, method = "kmeans",min.nc = 5,max.nc = 10,index = "silhouette")
 kmeans.jaffe.part = kmeans.jaffe$Best.partition
+kmeans.jaffe.part 
 
-average.jaffe =NbClust(data = jaffe.data, method = "average")
+#9 classes
+average.jaffe =NbClust(data = jaffe.data, method = "average",min.nc = 5,max.nc = 10,index = "silhouette")
 average.jaffe.part =average.jaffe$Best.partition
+average.jaffe.part
 
-ward.jaffe = NbClust(data = jaffe.data, method = "ward.D")
+#10 classes
+ward.jaffe = NbClust(data = jaffe.data, method = "ward.D",min.nc = 5,max.nc = 10,index = "silhouette")
 ward.jaffe.part = ward.jaffe$Best.partition
+ward.jaffe.part
 
-single.jaffe = NbClust(data = jaffe.data, method = "single")
+
+#7 classes
+single.jaffe = NbClust(data = jaffe.data, method = "single",min.nc = 5,max.nc = 10,index = "silhouette")
 single.jaffe.part = single.jaffe$Best.partition
+single.jaffe.part
 
-complete.jaffe = NbClust(data = jaffe.data, method = "complete")
+#6 classes
+complete.jaffe = NbClust(data = jaffe.data, method = "complete",min.nc = 5,max.nc = 10,index = "silhouette")
 complete.jaffe.part = complete.jaffe$Best.partition
+complete.jaffe.part
 
 
 #5
 HCPC(pca.jaffe)
 
 #6
-n.cluster.jaffe = 9
+n.cluster.jaffe = 10
 spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
-
+plot(jaffe$X, col = spect.jaffe)
 #7
 
 
@@ -103,8 +113,9 @@ spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 #8
 # mclust
 mclust.jaffe = Mclust(jaffe.data)
+mclust.jaffe
 # mixmod
-mixmodCluster(jaffe.data, 3:10, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"))
+mixmodCluster(as.factor(jaffe.data), 3:10, models = mixmodMultinomialModel("Binary_pk_Ekj"))
 
 #9
 mclustdr.jaffe = MclustDR(mclust.jaffe)
