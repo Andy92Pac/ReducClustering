@@ -121,24 +121,27 @@ pca.mfeat <- PCA(mfeat.data)
 
 ## 4. Clustering avec package Nbclust 
 
-Coil data
+*En bref : Le package NbClust inclus une fonction NbClust() qui utilise 30 indices pour déterminer le nombre de clusters et propose d'utiliser le meilleur schéma de clusters à partir des différents résultats obtenus en faisant varier toutes les combinaisons de nombre de clusters (renseigné ou non au préalable par les param min.nc et max.nc) de mesures de distance et de méthodes de clusters.*
+
+**Coil data**
+
 
 Obs : 
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
-kmeans.coil = NbClust(data = coil.data, method = "kmeans")
+kmeans.coil = NbClust(data = coil.data, method = "kmeans",min.nc = 5,max.nc = 10)
 kmeans.coil.part = kmeans.coil$Best.partition
 
-average.coil =NbClust(data = coil.data, method = "average")
+average.coil =NbClust(data = coil.data, method = "average",min.nc = 5,max.nc = 10)
 average.coil.part =average.coil$Best.partition
 
-ward.coil = NbClust(data = coil.data, method = "ward.D")
+ward.coil = NbClust(data = coil.data, method = "ward.D",min.nc = 5,max.nc = 10)
 ward.coil.part = ward.coil$Best.partition
 
-single.coil = NbClust(data = coil.data, method = "single")
+single.coil = NbClust(data = coil.data, method = "single",min.nc = 5,max.nc = 10)
 single.coil.part = single.coil$Best.partition
 
-complete.coil = NbClust(data = coil.data, method = "complete")
+complete.coil = NbClust(data = coil.data, method = "complete",min.nc = 5,max.nc = 10)
 complete.coil.part = complete.coil$Best.partition
 ```
 
