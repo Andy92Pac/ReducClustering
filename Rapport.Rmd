@@ -35,8 +35,8 @@ library(kernlab)
 library(Rmixmod)
 library(mclust)
 library(factoextra)
-library(corrplot)
 library(cluster)
+library(clustrd)
 ```
 
 
@@ -404,7 +404,7 @@ fviz_dend(hcpc.coil,
           )
 ```
 
-![](.png)
+![](Coildendo3clus.png)
 
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
@@ -418,7 +418,7 @@ fviz_cluster(hcpc.coil,
              )
 ```
 
-![](.png)
+![](factorcoil3clus.png)
 
 
 ***
@@ -493,7 +493,7 @@ n.cluster.coil = 20
 specc.coil = specc(x = coil.data, n.cluster.coil)
 ```
 
-Effectif des classes suite au kmeans spectrale
+Effectif des classes suite au spectrale
 
 ```{r}
 #table(spect.coil$)
@@ -508,7 +508,7 @@ n.cluster.jaffe = 10
 specc.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 ```
 
-Effectif des classes suite au kmeans spectrale
+Effectif des classes suite au spectrale
 
 ```{r}
 #table(specc.jaffe$)
@@ -541,7 +541,7 @@ spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 
 Pour choisir le nombre de classes nous allons nous basé sur ce que nous avons réalisé au préalable.
 
-Nous avons réalisé des méthodes qu'on pourrait qualifier d'automatique c'est à dire qu'on a laissé les algorithmes nous proposé selon leurs calculs un nombre de clusters ainsi qu'une répartition de la population. (Nbclust et HCPC). Puis nous avons initialisé par nous même le nombre de cluster avec le kmeans specc. 
+Nous avons réalisé des méthodes qu'on pourrait qualifier d'automatique c'est à dire qu'on a laissé les algorithmes nous proposé selon leurs calculs un nombre de clusters ainsi qu'une répartition de la population. (Nbclust et HCPC). Puis nous avons initialisé par nous même le nombre de cluster avec le spectrale. 
 
  
 **Coil data**
@@ -566,28 +566,29 @@ Proposition :
 
 **Coil data**
 
-Obs : 
-
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-mclust.coil = Mclust(coil.data)
-mixmomixmodCluster(geyser,3)
+EM.Coil <- mixmodCluster(coil.data, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"),criterion = c("NEC","BIC","ICL"), strategy = new ("Strategy",algo = "EM"), nbCluster = 10)
 ```
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 mclust.coil = Mclust(coil.data)
-mixmodCluster(geyser,3)
 ```
+
 
 ***
 
 **Jaffe data** 
 
-Obs : 
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+EM.Jaffe <- mixmodCluster(jaffe.data, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"),criterion = c("NEC","BIC","ICL"), strategy = new ("Strategy",algo = "EM"), nbCluster = 10)
+```
+
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-n.cluster.jaffe = 9
-spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
+mclust.coil = Mclust(coil.data)
 ```
+
+
 
 ***
 
@@ -611,5 +612,51 @@ spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 ```
 
 ## 9. MclustDR
+
+**En bref : La fonction MclustDR est une méthode de réduction de dimension qui permet de visualiser la structure de classification ou de classification obtenue à partir d'un mélange fini de densités gaussiennes.**
+
 ## 10. Etudes comparatives des performances
+
+**Coil data** 
+
+Obs : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+#table
+```
+
+***
+
+**Jaffe data** 
+
+Obs : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+#table
+```
+
+***
+
 ## 11. Cluspa
+
+**Coil data** 
+
+Obs : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 1,)
+```
+
+***
+
+**Jaffe data** 
+
+Obs : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+cluspca.jaffe <- cluspca(jaffe.data,method = c("RKM","FKM"),nclus = 1,)
+```
+
+***
+
+
