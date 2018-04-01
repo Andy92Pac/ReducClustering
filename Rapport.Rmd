@@ -33,11 +33,14 @@ library(FactoMineR)
 library(NbClust)
 ```
 
-Rappel : Ce projet a pour but de faire de la détection de fraude sur un jeu de données concernant des transactions de carte de crédit.
+REM
 
 ## 1. Introduction 
 
+Nous avons pour but dans ce projet de mettre en corrélation nos compétences acquises dans le cours de réduction de dimension ainsi qu'en modèle de mélange. En appliquant des algotithmes sur différents jeu de données qui ont pour point commun être des bases de données d'images. Une fois ces algorithmes lancé nous devions faire un travail d'analyse, d'interprêtations et de comparaison pour trouver selon nous ce qui nous semble être les solutions les plus cohérentes et meilleures. 
+
 Description des jeu de données : 
+------------------------------
 
 Columbia University Image Library (Coil20 Processed) : Base de données contenant 1440 images de 20 objets différents pris sous différents angles. Ce jeu de données est composé de 1440 observations et 1024 variables
 
@@ -54,6 +57,7 @@ Mixed National Institute of Standards and Technology (MNIST) : La base MNIST est
 ## 2. Chargement des données
 
 Chargement des données
+----------------------
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
 coil <- readMat("data/DATA_MATLAB - Projet-master-MLDS/COIL20_1440n_1024d_20c.mat")
@@ -62,7 +66,12 @@ mnist <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MNIST5.mat")
 mfeat <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MFEAT1.mat")
 ```
 
-Division en data et label 
+Séparation en data et label
+-------------------------
+
+Chaque datasets est au format .mat ils contiennent tous une colonne "Y" correspondants à la classe ou variable à expliquer ainsi que des varibles explicatives ou features "X".
+
+Nous les avons assignées dans des différentes variables pour plus de faciliter et de clarté dans notre code.
 
 ```{r}
 coil.data <- coil$X
@@ -81,29 +90,75 @@ mnist.label <- mnist$y
 
 ## 3. Analyse en composante principale
 
-Coil data 
+Dans cette étude de l'ACP nous allons plus nous intéresser aux individus. Car pour la suite ce qui nous intérèsse est le partitionnement de ceux-là.
 
-Obs : 
+**Coil data**
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
 pca.coil <- PCA(coil.data)
 ```
 
+Obs : ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
+
+
+![](ACP_Coil.png)
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+fviz_eig(pca.coil, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
+```
+
+En se basant sur la méthode du coude nous nous assurons bien que les deux composantes (1 et 2) sont les plus répresentative de notre jeu de données de base ainsi notre nuage de point sera le plus représentatif. Mais on remarque aussi qu'en terme de variance expliquée pour les deux dimensions on se retrouve qu'à environ 35% ce qui est faible.
+
+![](coudeMethode.png)
+
+De plus on peux s'intéresser à la qualité de représentation du nuage d'individu. Un point est dit bien représenté sur un axe ou un plan factoriel si il est proche de sa projection sur l’axe ou le plan. S’il est éloigné, on dit qu’il est mal représenté. Indicateur =angle formé entre le point et sa projection sur l’axe. Lorsque l’angle est proche de 0, c'est-à-dire que le cosinus est proche de 1, l’individu est bien représenté. Dans le cas inverse, l’angle est proche de 90° et le cosinus est proche de 0
+
+Cependant au vu du nombre d'observations que l'on à afficher le graphe du cos2 par individu ne serait pas très pertinents car graphiquement parlant il ne serait pas possible de définir quel individu à une meilleure qualité de représentation qu'un autre. De même que pour la contributions des individus au composantes 1 et 2. 
+
 ***
 
-Jaffe data
-
-Obs : 
+**Jaffe data**
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
 pca.jaffe <- PCA(jaffe.data)
 ```
 
+Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
+
+De même que pour l'ACP du jeu de données Coil on remarque une répartition des individu très distincte ce qui dans un premier temps peut nous renseigner sur le fait que les individus ne sont pas identiques ou colporte la même informations (présence de doublons)
+
+![](ACP_jaffe.png)
+
+Méthode du coude : 
+Dim 1 = 31,4% variance expliquée (valeurs propres)
+Dim 2 = 15% variance expliquée (valeurs propres)
+
+```{r,results='hide',message=FALSE,warning=FALSE}
+fviz_eig(pca.jaffe, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
+```
+
+![](coude_jaffe.png)
+
+Qualité de représentation : 
+
+```{r}
+fviz_pca_ind (pca.jaffe, col.ind = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE # Évite le chevauchement de texte
+)
+```
+
+Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarité sont regroupés. On remarque 6 foyers. (Nous précisons foyers sans aucun cas faire allusion à des partitions ou classes)
+
+![](ind_jaffe.png)
+
+
 ***
 
-Mnist data
+**Mnist data**
 
-Obs : 
+Obs :
+---
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
 pca.mnist <- PCA(mnist.data)
@@ -111,9 +166,10 @@ pca.mnist <- PCA(mnist.data)
 
 ***
 
-Mfeat data
+**Mfeat data**
 
-Obs : 
+Obs :
+---
 
 ```{r,results='hide',message=FALSE,warning=FALSE}
 pca.mfeat <- PCA(mfeat.data)
@@ -147,7 +203,7 @@ complete.coil.part = complete.coil$Best.partition
 
 ***
 
-jaffe data 
+**jaffe data**
 
 Obs : 
 
@@ -170,7 +226,7 @@ complete.jaffe.part = complete.jaffe$Best.partition
 
 ***
 
-mfeat data 
+**mfeat data**
 
 Obs : 
 
@@ -193,7 +249,7 @@ complete.mfeat.part = complete.mfeat$Best.partition
 
 ***
 
-mnist data 
+**mnist data** 
 
 Obs : 
 
@@ -217,7 +273,7 @@ complete.mnist.part = complete.mnist$Best.partition
 
 ## 5. Clustering à partir des deux premère composantes
 
-Coil data 
+**Coil data**
 
 Obs : 
 
@@ -227,7 +283,7 @@ HCPC(pca.coil)
 
 ***
 
-Jaffe data 
+**Jaffe data** 
 
 Obs : 
 
@@ -237,7 +293,7 @@ HCPC(pca.jaffe)
 
 ***
 
-Mfeat data 
+**Mfeat data**
 
 Obs : 
 
@@ -247,7 +303,7 @@ HCPC(pca.mfeat)
 
 ***
 
-Mnist data 
+**Mnist data**
 
 Obs : 
 
@@ -258,7 +314,7 @@ HCPC(pca.mnist)
 
 ## 6. Spectral clustering
 
-Coil data 
+**Coil data**
 
 Obs : 
 
@@ -269,7 +325,7 @@ spect.coil = specc(x = coil.data, n.cluster.coil)
 
 ***
 
-Jaffe data 
+**Jaffe data**
 
 Obs : 
 
@@ -280,7 +336,7 @@ spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 
 ***
 
-Mfeat data 
+**Mfeat data**
 
 Obs : 
 
@@ -291,7 +347,7 @@ spect.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
 
 ***
 
-Mnist data 
+**Mnist data** 
 
 Obs : 
 
@@ -303,25 +359,25 @@ spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 
 ## 7. Proposition d'un nombre de classes
 
-Coil data 
+**Coil data**
 
 Proposition : 
 
-Jaffe data 
+**Jaffe data** 
 
 Proposition : 
 
-Mfeat data 
+**Mfeat data** 
 
 Proposition : 
 
-Mnist data 
+**Mnist data** 
 
 Proposition : 
 
 ## 8. Modèle de mélange
 
-Coil data 
+**Coil data**
 
 Obs : 
 
@@ -331,7 +387,7 @@ mclust.coil = Mclust(coil.data)
 
 ***
 
-Jaffe data 
+**Jaffe data** 
 
 Obs : 
 
@@ -342,7 +398,7 @@ spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 
 ***
 
-Mfeat data 
+**Mfeat data** 
 
 Obs : 
 
@@ -352,7 +408,7 @@ mclust.mfeat = Mclust(mfeat.data)
 
 ***
 
-Mnist data 
+**Mnist data**
 
 Obs : 
 
