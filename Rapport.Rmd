@@ -37,6 +37,7 @@ library(mclust)
 library(factoextra)
 library(cluster)
 library(clustrd)
+library(ClusterR)
 ```
 
 
@@ -1238,6 +1239,275 @@ mclustdr.jaffeScore
 
 
 ***
+
+
+**Mfeat data** 
+
+>Kmeans
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+kmeansPartition.mfeat <- kmeans.mfeat$Best.partition
+kmeans.mfeat <- table(kmeans = kmeansPartition.mfeat,label = mfeat.label)
+kmeansscore = external_validation(as.vector(mfeat.label),as.numeric(kmeansPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+kmeans.mfeatScore <- data.frame(specificity=0.9492,sensitivity=0.7288,precision=0.6131,recall=0.7288,NMI=0.724,entropy=0.2383,purity=0.7345,row.names = "score")
+kmeans.mfeatScore
+```
+
+
+>Average
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+averagePartition.mfeat <- average.mfeat$Best.partition
+table(average = averagePartition.mfeat,label = mfeat.label)
+averagescore = external_validation(as.vector(mfeat.label),as.numeric(averagePartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+average.mfeatScore <- data.frame(specificity=0.8674,sensitivity=0.8021,precision=0.4007,recall=0.8021,NMI=0.6625,entropy=0.1804,purity=0.4885,row.names = "score")
+average.mfeatScore
+```
+
+
+>Ward
+
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+wardPartition.mfeat <- ward.mfeat$Best.partition
+table(ward = wardPartition.mfeat,label = mfeat.label)
+wardscore = external_validation(as.vector(mfeat.label),as.numeric(wardPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+ward.mfeatScore <- data.frame(specificity=0.9485,sensitivity=0.7777,precision=0.6255,recall=0.7777,NMI=0.764,entropy=0.1935,purity=0.781,row.names = "score")
+ward.mfeatScore
+```
+
+
+>Complete
+
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+completePartition.mfeat <- complete.mfeat$Best.partition
+table(complete = completePartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(completePartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+complete.mfeatScore <- data.frame(specificity=0.9076,sensitivity=0.6931,precision=0.2803,recall=0.6931,NMI=0.6675,entropy=0.2019,purity=0.4451,row.names = "score")
+complete.mfeatScore
+```
+
+
+
+>HCPC
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpcPartition.mfeat <- hcpc20.mfeat$data.clust$clust
+table(hcpc = hcpcPartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(hcpcPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+hcpc.mfeatScore <- data.frame(specificity=0.9618,sensitivity=0.6202,precision=0.4574,recall=0.6202,NMI=0.7254,entropy=0.2432,purity=0.5944,row.names = "score")
+hcpc.mfeatScore
+```
+
+
+>Spectrale
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+speccPartition.mfeat <- specc.mfeat@.Data
+table(specc = speccPartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(speccPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+specc.mfeatScore <- data.frame(specificity=0.9665,sensitivity=0.7984,precision=0.5531,recall=0.7984,NMI=0.8387,entropy=0.1219,purity=0.7326,row.names = "score")
+specc.mfeatScore
+```
+
+
+>EM
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+emPartition.mfeat <- EM.mfeat@bestResult@partition
+table(em = emPartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(emPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+em.mfeatScore <- data.frame(specificity=0.9747,sensitivity=0.6298,precision=0.5636,recall=0.6298,NMI=0.7696,entropy=0.2218,purity=0.7083,row.names = "score")
+em.mfeatScore
+```
+
+
+>Mclust
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.mfeat <- mclust.mfeat$classification
+table(Mclust = MclustPartition.mfeat,label = mfeat.label)
+```
+
+>MclustDR
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.mfeat <- MclustDR.mfeat
+table(MclustDR = MclustDRPartition.mfeat,label = mfeat.label)
+```
+
+***
+
+
+**Mnist data** 
+
+>Kmeans
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+kmeansPartition.mnist <- kmeans.mnist20$Best.partition
+kmeans.mnistMatConf <- table(kmeans = kmeansPartition.mnist,label = mnist.label)
+kmeansscore = external_validation(as.vector(mnist.label),as.numeric(kmeansPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+kmeans.mnistScore <- data.frame(specificity=0.9702,sensitivity=0.6543,precision=0.5323,recall=0.6543,NMI=0.765,entropy=0.2118,purity=0.6438,row.names = "score")
+kmeans.mnistScore
+```
+
+
+>Average
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+averagePartition.mnist <- average.mnist$Best.partition
+table(average = averagePartition.mnist,label = mnist.label)
+averagescore = external_validation(as.vector(mnist.label),as.numeric(averagePartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+average.mnistScore <- data.frame(specificity=0.8373,sensitivity=0.835,precision=0.2103,recall=0.835,NMI=0.6358,entropy=0.106,purity=0.3222,row.names = "score")
+average.mnistScore
+```
+
+
+>Ward
+
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+wardPartition.mnist <- ward.mnist20$Best.partition
+table(ward = wardPartition.mnist,label = mnist.label)
+wardscore = external_validation(as.vector(mnist.label),as.numeric(wardPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+ward.mnistScore <- data.frame(specificity=0.9818,sensitivity=0.7433,precision=0.6811,recall=0.7433,NMI=0.6359,entropy=0.1469,purity=0.7771,row.names = "score")
+ward.mnistScore
+```
+
+
+>Complete
+
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+completePartition.mnist <- complete.mnist20$Best.partition
+table(complete = completePartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(completePartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+complete.mnistScore <- data.frame(specificity=0.9076,sensitivity=0.6931,precision=0.2803,recall=0.6931,NMI=0.6675,entropy=0.2019,purity=0.4451,row.names = "score")
+complete.mnistScore
+```
+
+
+
+>HCPC
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpcPartition.mnist <- hcpc20.mnist$data.clust$clust
+table(hcpc = hcpcPartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(hcpcPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+hcpc.mnistScore <- data.frame(specificity=0.9618,sensitivity=0.6202,precision=0.4574,recall=0.6202,NMI=0.7254,entropy=0.2432,purity=0.5944,row.names = "score")
+hcpc.mnistScore
+```
+
+
+>Spectrale
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+speccPartition.mnist <- specc.mnist@.Data
+table(specc = speccPartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(speccPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+specc.mnistScore <- data.frame(specificity=0.9665,sensitivity=0.7984,precision=0.5531,recall=0.7984,NMI=0.8387,entropy=0.1219,purity=0.7326,row.names = "score")
+specc.mnistScore
+```
+
+
+>EM
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+emPartition.mnist <- EM.mnist@bestResult@partition
+table(em = emPartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(emPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+em.mnistScore <- data.frame(specificity=0.9747,sensitivity=0.6298,precision=0.5636,recall=0.6298,NMI=0.7696,entropy=0.2218,purity=0.7083,row.names = "score")
+em.mnistScore
+```
+
+
+>Mclust
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.mnist <- mclust.mnist$classification
+table(Mclust = MclustPartition.mnist,label = mnist.label)
+```
+
+>MclustDR
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.mnist <- MclustDR.mnist
+table(MclustDR = MclustDRPartition.mnist,label = mnist.label)
+```
+
+***
+
 
 ## 11. Cluspa
 
