@@ -583,7 +583,7 @@ hcpc.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_dend(hcpc.coil,
+fviz_dend(hcpcAuto.coil,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
           rect_border = "jco"           # Couleur du rectangle
@@ -598,7 +598,7 @@ Visualisation des individus sur un plan factoriel regroupé en fonction des clas
 fviz_cluster(hcpc.coil,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
-             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             palette = "jco",         # Palette de couleurs,
              ggtheme = theme_minimal(),
              main = "Factor map"
              )
@@ -609,34 +609,34 @@ fviz_cluster(hcpc.coil,
 Init avec 20 clusters
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-hcpc.coil <- HCPC(pca.coil,nb.clust = 20,graph = TRUE)
+hcpc20.coil <- HCPC(pca.coil,nb.clust = 20,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_dend(hcpc.coil,
+fviz_dend(hcpc20.coil,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
           rect_border = "jco"           # Couleur du rectangle
           )
 ```
 
-![](Coildendo3cldus.png)
+![](Hcpc20.png)
 
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_cluster(hcpc.coil,
+fviz_cluster(hcpc20.coil,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
-             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             palette = "jco",         # Palette de couleurs
              ggtheme = theme_minimal(),
              main = "Factor map"
              )
 ```
 
-![](factorcoidl3clus.png)
+![](Illisible.png)
 
 ***
 
@@ -647,13 +647,13 @@ Mode automatique HCPC nous propose 4 clusters distincts
 Init avec 10 classes
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-hcpc.Jaffe <- HCPC(pca.jaffe,nb.clust = 10,graph = TRUE)
+hcpc10.Jaffe <- HCPC(pca.jaffe,nb.clust = 10,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_dend(hcpc.coil,
+fviz_dend(hcpc10.Jaffe,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
           rect_border = "jco"           # Couleur du rectangle
@@ -665,7 +665,7 @@ fviz_dend(hcpc.coil,
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_cluster(hcpc.coil,
+fviz_cluster(hcpc10.Jaffe,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
              palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
@@ -674,7 +674,7 @@ fviz_cluster(hcpc.coil,
              )
 ```
 
-![](hcpcAuto_Jaffe.png)
+![](jaffe10hcpc.png)
 
 ***
 
@@ -754,7 +754,7 @@ fviz_cluster(hcpc.mnist,
 
 ## 6. Spectral clustering
 
-**En bref : le Spectral Clustering c’est trois étapes :Construire une matrice qui représente les affinités entre les individus; Projeter les individus sur un plan en fonction de leurs affinités et Appliquer une méthode classique de clustering (le plus souvent une K-means) sur ces nouvelles coordonnées.**
+**En bref **: le Spectral Clustering c’est trois étapes :Construire une matrice qui représente les affinités entre les individus; Projeter les individus sur un plan en fonction de leurs affinités et Appliquer une méthode classique de clustering (le plus souvent une K-means) sur ces nouvelles coordonnées.
 
 Pour réaliser notre spectral clustering nous utilisons le package kernlab qui contiens la fonction specc() qui est le kmeans spectrale
 
@@ -852,14 +852,25 @@ Proposition : 10
 **Coil data**
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-all <- mixmodGaussianModel()
-EM.coil <- mixmodCluster(as.data.frame(coil.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 20)
-mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative",criterion = "BIC")
-View(EM.coil@bestResult@partition)
+EM.coil <- mixmodCluster(data.frame(pca.coil$ind), 2:21,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
+Effectif des classes 
+
+```{r}
+em.coilEff <- matrix(c(72,160,72,178,33,99,80,37,49,60,66,72,61,21,72,72,71,100,42,23),nrow = 1)
+em.coilEff
+```
+
+Mclust
+
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.coil = Mclust(coil.data)
+mclust.coil = Mclust(coil.data,G = 2:20)
+```
+
+```{r}
+mclust.coilEff <- matrix(c(2,19,22,43,10,15,19,9,47,27),nrow = 1)
+mclust.coilEff
 ```
 
 
@@ -868,17 +879,28 @@ mclust.coil = Mclust(coil.data)
 **Jaffe data** 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-all <- mixmodGaussianModel()
-EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
-View(EM.jaffe@bestResult@partition)
+EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
+Effectif des classes 
+
+```{r}
+em.jaffeEff <- matrix(c(2,19,22,43,10,15,19,9,47,27),nrow = 1)
+em.jaffeEff
+```
+
+Mclust
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.jaffe = Mclust(jaffe.data)
+mclust.jaffe = Mclust(jaffe.data,G = 2:10)
 ```
 
+Effectif des classes 
 
+```{r}
+mclust.jaffeEff <- matrix(c(24,22,22,19,22,20,20,27,21,16),nrow = 1)
+mclust.jaffeEff
+```
 
 ***
 
@@ -920,6 +942,12 @@ mclust.jaffe = Mclust(jaffe.data)
 mclustdr.coil <- MclustDR(mclust.coil)
 ```
 
+Effectif des classes 
+
+```{r}
+mclustdr.coilEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
+mclustdr.coilEff
+```
 
 ***
 
@@ -929,75 +957,149 @@ mclustdr.coil <- MclustDR(mclust.coil)
 mclustdr.jaffe <- MclustDR(mclust.jaffe)
 ```
 
+Effectif des classes 
+
+```{r}
+mclustdr.jaffeEff <- matrix(c(24,22,22,19,22,20,20,27,21,16),nrow = 1)
+mclustdr.jaffeEff
+```
+
 ## 10. Etudes comparatives des performances
+
+Dans cette partie nous avons utilisé la méthode de matrice de confusion pour avoir une idée des points bien classés ainsi que les mal classés en les comparants aux différentes réelles classes respectives.
+
+De plus nous utilisons une fonction external_validation() provenant du package ClusteR qui permet d'avoir une palette de mesures de performances de clustering. Nous afficherons la NMI, specificity (false negative rate), sensitivity (True positive rate), precision, recall et F-Mesure. Nous pouvons afficher d'autres mesures de performances mais selon nos recherches ainsi que leurs significations ils s'agit la des mesures les plus courantes pour se fier à la repartitions des points de nos cluster en comparaison des vrais labels. De plus ce sont ces mesures que nous avons pu aborder dans différents cours.
+
 
 **Coil data** 
 
 >Kmeans
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeansPartition.coil <- kmeans.coil20$Best.partition
-table(kmeans = kmeansPartition.coil,label = coil.label)
+kmeans.coilMatConf <- table(kmeans = kmeansPartition.coil,label = coil.label)
+kmeansscore = external_validation(as.vector(coil.label),as.numeric(kmeansPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+kmeans.coilScore <- data.frame(specificity=0.9702,sensitivity=0.6543,precision=0.5323,recall=0.6543,NMI=0.765,entropy=0.2118,purity=0.6438,row.names = "score")
+kmeans.coilScore
+```
+
 
 >Average
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 averagePartition.coil <- average.coil$Best.partition
 table(average = averagePartition.coil,label = coil.label)
+averagescore = external_validation(as.vector(coil.label),as.numeric(averagePartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+average.coilScore <- data.frame(specificity=0.8373,sensitivity=0.835,precision=0.2103,recall=0.835,NMI=0.6358,entropy=0.106,purity=0.3222,row.names = "score")
+average.coilScore
+```
+
 
 >Ward
 
-7 classes bien trouvées
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 wardPartition.coil <- ward.coil20$Best.partition
 table(ward = wardPartition.coil,label = coil.label)
+wardscore = external_validation(as.vector(coil.label),as.numeric(wardPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+ward.coilScore <- data.frame(specificity=0.9818,sensitivity=0.7433,precision=0.6811,recall=0.7433,NMI=0.6359,entropy=0.1469,purity=0.7771,row.names = "score")
+ward.coilScore
+```
+
 
 >Complete
 
-0 
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 completePartition.coil <- complete.coil20$Best.partition
 table(complete = completePartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(completePartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+complete.coilScore <- data.frame(specificity=0.9076,sensitivity=0.6931,precision=0.2803,recall=0.6931,NMI=0.6675,entropy=0.2019,purity=0.4451,row.names = "score")
+complete.coilScore
+```
+
+
 
 >HCPC
 
-```{r}
-hcpcPartition.coil <- hcpc.coil20
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpcPartition.coil <- hcpc20.coil$data.clust$clust
 table(hcpc = hcpcPartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(hcpcPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+hcpc.coilScore <- data.frame(specificity=0.9618,sensitivity=0.6202,precision=0.4574,recall=0.6202,NMI=0.7254,entropy=0.2432,purity=0.5944,row.names = "score")
+hcpc.coilScore
+```
+
 
 >Spectrale
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 speccPartition.coil <- specc.coil@.Data
 table(specc = speccPartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(speccPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+specc.coilScore <- data.frame(specificity=0.9665,sensitivity=0.7984,precision=0.5531,recall=0.7984,NMI=0.8387,entropy=0.1219,purity=0.7326,row.names = "score")
+specc.coilScore
+```
+
 
 >EM
 
-```{r}
-EMPartition.coil <- EM.jaffe
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+emPartition.coil <- EM.coil@bestResult@partition
 table(em = emPartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(emPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+em.coilScore <- data.frame(specificity=0.9747,sensitivity=0.6298,precision=0.5636,recall=0.6298,NMI=0.7696,entropy=0.2218,purity=0.7083,row.names = "score")
+em.coilScore
+```
+
 
 >Mclust
 
-```{r}
-MclustPartition.coil <- Mclust.jaffe
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.coil <- mclust.coil$classification
 table(Mclust = MclustPartition.coil,label = coil.label)
 ```
 
 >MclustDR
 
-```{r}
-MclustDRpartition.coil <- MclustDR.jaffe
-table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.coil <- MclustDR.coil
+table(MclustDR = MclustDRPartition.coil,label = coil.label)
 ```
 
 ***
@@ -1006,49 +1108,134 @@ table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
 
 >Kmeans
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeansPartition.jaffe <- kmeans.jaffe$Best.partition
 table(kmeans = kmeansPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(kmeansPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+kmeans.jaffeScore <- data.frame(specificity=0.9713,sensitivity=0.8444,precision=0.7577,recall=0.8444,NMI=0.8945,entropy=0.0925,purity=0.8685,row.names = "score")
+kmeans.jaffeScore
+```
+
 
 >Ward
 
 7 classes bien trouvées
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 wardPartition.jaffe <- ward.jaffe$Best.partition
 table(ward = wardPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(wardPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+ward.jaffeScore <- data.frame(specificity=0.9699,sensitivity=0.8444,precision=0.7484,recall=0.8444,NMI=0.8939,entropy=0.0925,purity=0.8826,row.names = "score")
+ward.jaffeScore
+```
+
 
 >Complete
 
-0 
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 completePartition.jaffe <- complete.jaffe$Best.partition
 table(complete = completePartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(completePartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+complete.jaffeScore <- data.frame(specificity=0.7559,sensitivity=0.8486,precision=0.2695,recall=0.8486,NMI=0.6381,entropy=0.0966,purity=0.4789,row.names = "score")
+complete.jaffeScore
+```
+
 
 >HCPC
 
-```{r}
-hcpcPartition.jaffe <- hcpc.jaffe
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpcPartition.jaffe <- hcpc10.Jaffe$data.clust$clust
 table(hcpc = hcpcPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(hcpcPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+hcpc.jaffeScore <- data.frame(specificity=0.9525,sensitivity=0.7608,precision=0.6295,recall=0.7608,NMI=0.8229,entropy=0.1509,purity=0.7559,row.names = "score")
+hcpc.jaffeScore
+```
+
 
 >Spectrale
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 speccPartition.jaffe <- specc.jaffe@.Data
 table(specc = speccPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(speccPartition.jaffe), method = "nmi", summary_stats = T)
 ```
 
->Mixmod
+Mesure de performances
 
 ```{r}
-speccPartition.coil <- specc.coil@.Data
-table(specc = speccPartition.coil,label = coil.label)
+specc.jaffeScore <- data.frame(specificity=0.8467,sensitivity=0.7433,precision=0.3397,recall=0.7433,NMI=0.6955,entropy=0.1666,purity=0.5681,row.names = "score")
+specc.jaffeScore
 ```
+
+
+>EM
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+emPartition.jaffe <- EM.jaffe@bestResult@partition
+table(em = emPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(emPartition.jaffe), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+em.jaffeScore <- data.frame(specificity=0.9294,sensitivity=0.7645,precision=0.5345,recall=0.7645,NMI=0.7946,entropy=0.1533,purity=0.6901,row.names = "score")
+em.jaffeScore
+```
+
+
+>Mclust
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.jaffe <- mclust.jaffe$classification
+table(Mclust = MclustPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(MclustPartition.jaffe), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+mclust.jaffeScore <- data.frame(specificity=0.9658,sensitivity=0.9377,precision=0.7442,recall=0.9377,NMI=0.9205,entropy=0.0426,purity=0.8638,row.names = "score")
+mclust.jaffeScore
+```
+
+
+>MclustDR
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.jaffe <- mclustdr.jaffe$class
+table(MclustDR = MclustDRpartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(MclustDRpartition.jaffe), method = "nmi", summary_stats = T)
+```
+
+Mesure de performances
+
+```{r}
+mclustdr.jaffeScore <- data.frame(specificity=0.9658,sensitivity=0.9377,precision=0.7442,recall=0.9377,NMI=0.9205,entropy=0.0426,purity=0.8638,row.names = "score")
+mclustdr.jaffeScore
+```
+
 
 ***
 
@@ -1060,6 +1247,14 @@ Obs :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
+table(cluspca.coil$cluster)
+```
+
+Effectif des classes 
+
+```{r}
+cluspca.coilEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
+cluspca.coilEff
 ```
 
 ***
@@ -1070,6 +1265,13 @@ Obs :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 cluspca.jaffe <- cluspca(jaffe.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
+```
+
+Effectif des classes 
+
+```{r}
+cluspca.jaffeEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
+cluspca.jaffeEff
 ```
 
 ***
