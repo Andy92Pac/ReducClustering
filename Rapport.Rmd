@@ -701,7 +701,6 @@ mclust.coilEff
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
-table(EM.jaffe@bestResult@partition)
 ```
 
 Effectif des classes 
@@ -773,60 +772,127 @@ mclustdr.jaffeEff
 
 ## 10. Etudes comparatives des performances
 
+Dans cette partie nous avons utilisé la méthode de matrice de confusion pour avoir une idée des points bien classés ainsi que les mal classés en les comparants aux différentes réelles classes respectives.
+
+De plus nous utilisons une fonction external_validation() provenant du package ClusteR qui permet d'avoir une palette de mesures de performances de clustering. Nous afficherons la NMI, specificity (false negative rate), sensitivity (True positive rate), precision, recall et F-Mesure. Nous pouvons afficher d'autres mesures de performances mais selon nos recherches ainsi que leurs significations ils s'agit la des mesures les plus courantes pour se fier à la repartitions des points de nos cluster en comparaison des vrais labels. De plus ce sont ces mesures que nous avons pu aborder dans différents cours.
+
+
 **Coil data** 
 
 >Kmeans
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeansPartition.coil <- kmeans.coil20$Best.partition
-table(kmeans = kmeansPartition.coil,label = coil.label)
+kmeans.coilMatConf <- table(kmeans = kmeansPartition.coil,label = coil.label)
+kmeansscore = external_validation(as.vector(coil.label),as.numeric(kmeansPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+kmeans.coilScore <- data.frame(specificity=0.9702,sensitivity=0.6543,precision=0.5323,recall=0.6543,NMI=0.765,entropy=0.2118,purity=0.6438,row.names = "score")
+kmeans.coilScore
+```
+
 
 >Average
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 averagePartition.coil <- average.coil$Best.partition
 table(average = averagePartition.coil,label = coil.label)
+averagescore = external_validation(as.vector(coil.label),as.numeric(averagePartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+average.coilScore <- data.frame(specificity=0.8373,sensitivity=0.835,precision=0.2103,recall=0.835,NMI=0.6358,entropy=0.106,purity=0.3222,row.names = "score")
+average.coilScore
+```
+
 
 >Ward
 
-7 classes bien trouvées
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 wardPartition.coil <- ward.coil20$Best.partition
 table(ward = wardPartition.coil,label = coil.label)
+wardscore = external_validation(as.vector(coil.label),as.numeric(wardPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+ward.coilScore <- data.frame(specificity=0.9818,sensitivity=0.7433,precision=0.6811,recall=0.7433,NMI=0.6359,entropy=0.1469,purity=0.7771,row.names = "score")
+ward.coilScore
+```
+
 
 >Complete
 
-0 
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 completePartition.coil <- complete.coil20$Best.partition
 table(complete = completePartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(completePartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+complete.coilScore <- data.frame(specificity=0.9076,sensitivity=0.6931,precision=0.2803,recall=0.6931,NMI=0.6675,entropy=0.2019,purity=0.4451,row.names = "score")
+complete.coilScore
+```
+
+
 
 >HCPC
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 hcpcPartition.coil <- hcpc20.coil$data.clust$clust
 table(hcpc = hcpcPartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(hcpcPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+hcpc.coilScore <- data.frame(specificity=0.9618,sensitivity=0.6202,precision=0.4574,recall=0.6202,NMI=0.7254,entropy=0.2432,purity=0.5944,row.names = "score")
+hcpc.coilScore
+```
+
 
 >Spectrale
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 speccPartition.coil <- specc.coil@.Data
 table(specc = speccPartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(speccPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+specc.coilScore <- data.frame(specificity=0.9665,sensitivity=0.7984,precision=0.5531,recall=0.7984,NMI=0.8387,entropy=0.1219,purity=0.7326,row.names = "score")
+specc.coilScore
+```
+
 
 >EM
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 emPartition.coil <- EM.coil@bestResult@partition
 table(em = emPartition.coil,label = coil.label)
+res = external_validation(as.vector(coil.label),as.numeric(emPartition.coil), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+em.coilScore <- data.frame(specificity=0.9747,sensitivity=0.6298,precision=0.5636,recall=0.6298,NMI=0.7696,entropy=0.2218,purity=0.7083,row.names = "score")
+em.coilScore
+```
+
 
 >Mclust
 
@@ -848,63 +914,134 @@ table(MclustDR = MclustDRPartition.coil,label = coil.label)
 
 >Kmeans
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeansPartition.jaffe <- kmeans.jaffe$Best.partition
 table(kmeans = kmeansPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(kmeansPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+kmeans.jaffeScore <- data.frame(specificity=0.9713,sensitivity=0.8444,precision=0.7577,recall=0.8444,NMI=0.8945,entropy=0.0925,purity=0.8685,row.names = "score")
+kmeans.jaffeScore
+```
+
 
 >Ward
 
 7 classes bien trouvées
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 wardPartition.jaffe <- ward.jaffe$Best.partition
 table(ward = wardPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(wardPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+ward.jaffeScore <- data.frame(specificity=0.9699,sensitivity=0.8444,precision=0.7484,recall=0.8444,NMI=0.8939,entropy=0.0925,purity=0.8826,row.names = "score")
+ward.jaffeScore
+```
+
 
 >Complete
 
-0 
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 completePartition.jaffe <- complete.jaffe$Best.partition
 table(complete = completePartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(completePartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+complete.jaffeScore <- data.frame(specificity=0.7559,sensitivity=0.8486,precision=0.2695,recall=0.8486,NMI=0.6381,entropy=0.0966,purity=0.4789,row.names = "score")
+complete.jaffeScore
+```
+
 
 >HCPC
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 hcpcPartition.jaffe <- hcpc10.Jaffe$data.clust$clust
 table(hcpc = hcpcPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(hcpcPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+hcpc.jaffeScore <- data.frame(specificity=0.9525,sensitivity=0.7608,precision=0.6295,recall=0.7608,NMI=0.8229,entropy=0.1509,purity=0.7559,row.names = "score")
+hcpc.jaffeScore
+```
+
 
 >Spectrale
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 speccPartition.jaffe <- specc.jaffe@.Data
 table(specc = speccPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(speccPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+specc.jaffeScore <- data.frame(specificity=0.8467,sensitivity=0.7433,precision=0.3397,recall=0.7433,NMI=0.6955,entropy=0.1666,purity=0.5681,row.names = "score")
+specc.jaffeScore
+```
+
 
 >EM
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 emPartition.jaffe <- EM.jaffe@bestResult@partition
 table(em = emPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(emPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+em.jaffeScore <- data.frame(specificity=0.9294,sensitivity=0.7645,precision=0.5345,recall=0.7645,NMI=0.7946,entropy=0.1533,purity=0.6901,row.names = "score")
+em.jaffeScore
+```
+
 
 >Mclust
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 MclustPartition.jaffe <- mclust.jaffe$classification
 table(Mclust = MclustPartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(MclustPartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+mclust.jaffeScore <- data.frame(specificity=0.9658,sensitivity=0.9377,precision=0.7442,recall=0.9377,NMI=0.9205,entropy=0.0426,purity=0.8638,row.names = "score")
+mclust.jaffeScore
+```
+
 
 >MclustDR
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 MclustDRpartition.jaffe <- mclustdr.jaffe$class
 table(MclustDR = MclustDRpartition.jaffe,label = jaffe.label)
+res = external_validation(as.vector(jaffe.label),as.numeric(MclustDRpartition.jaffe), method = "nmi", summary_stats = T)
 ```
+
+Mesure de performances
+
+```{r}
+mclustdr.jaffeScore <- data.frame(specificity=0.9658,sensitivity=0.9377,precision=0.7442,recall=0.9377,NMI=0.9205,entropy=0.0426,purity=0.8638,row.names = "score")
+mclustdr.jaffeScore
+```
+
 
 ***
 
