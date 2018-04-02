@@ -199,6 +199,7 @@ Mnist data
 pca.mnist <- PCA(mnist.data)
 ```
 
+<<<<<<< HEAD
 **Obs** : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP. On peut vaguement distingué 4 grands foyers.
 
 ![](ACP_mnist.png)
@@ -209,6 +210,13 @@ Dim 1 = 6,19% variance expliquée (valeurs propres)
 Dim 2 = 4,48% variance expliquée (valeurs propres)
 
 
+=======
+Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
+
+
+![](ACP_mnist.png)
+
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 fviz_eig(pca.mnist, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
 ```
@@ -225,7 +233,10 @@ fviz_pca_ind (pca.mnist, col.ind = "cos2",
 )
 ```
 
+<<<<<<< HEAD
 Graphe illisible du fait du nombre d'individus et des relations qu'il y a entre chaque.
+=======
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 ![](ind_mnist2.png)
 ***
@@ -239,6 +250,7 @@ pca.mfeat <- PCA(mfeat.data)
 
 **Plan d'individus factorielle**: 
 
+<<<<<<< HEAD
 
 ![](PCA_mfeat.png)
 
@@ -246,6 +258,12 @@ pca.mfeat <- PCA(mfeat.data)
 
 Dim 1 = 16,13% variance expliquée (valeurs propres)
 Dim 2 = 9,76% variance expliquée (valeurs propres)
+=======
+
+
+![](PCA_mfeat.png)
+
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 fviz_eig(pca.mfeat, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
@@ -262,6 +280,10 @@ fviz_pca_ind (pca.mfeat, col.ind = "cos2",
 )
 ```
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 ![](ind_mfeat.png)
 
 ## 4. Clustering avec package Nbclust 
@@ -464,15 +486,147 @@ complete.jaffeEff
 
 ***
 
+<<<<<<< HEAD
 Mfeat data
 ----------
+=======
+Mnist data
+----------
+
+Obs : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
+
+**Kmeans**
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+kmeans.mnist = NbClust(mnist.data, method = "kmeans",min.nc = 5,max.nc = 10)
+```
+
+Vote majoritaire propose un regroupement en **8 classes**.
+
+Effectif des classes :
+
+```{r}
+kmeans.mnistEff <- matrix(c(297, 275, 454, 523, 628, 441, 543, 334 ),nrow = 1)
+kmeans.mnistEff
+```
+
+**Average**
+
+Le vote majoritaire propose un regroupement en ** 8 classes**. 
+
+Effectif des classes :
+
+```{r}
+average.mnistEff <- matrix(c(311, 35, 3077, 41, 3, 26, 1,  1 ),nrow = 1)
+average.mnistEff
+```
+
+**Ward**
+
+Le vote majoritaire propose un regroupement en ** 10 classes**.
+
+Effectif des classes :
+
+```{r}
+ward.mnistEff <- matrix(c(394, 332, 580, 319, 315, 552, 276, 178, 214, 335),nrow = 1)
+ward.mnistEff
+```
+
+**Single**
+
+Le vote majoritaire propose un regroupement en **8 classes**. 
+
+Effectif des classes :
+
+```{r}
+single.mnistEff <- matrix(c(3488, 1, 1,  1, 1,  1, 1,  1 ),nrow = 1)
+single.mnistEff
+```
+
+**Complete**
+
+Le vote majoritaire propose un regroupement en **8 classes**.
+
+Effectif des classes :
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+complete.mnistEff <- matrix(c( 468,  101,  85, 1929, 116,  469, 266, 61  ),nrow = 1)
+complete.mnistEff
+```
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 
 
 ***
 
+<<<<<<< HEAD
 Mnist data
 ----------
+=======
+Mfeat data
+----------
+
+Obs : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
+
+**Kmeans**
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+kmeans.mfeat = NbClust(mfeat.data, method = "kmeans",min.nc = 2,max.nc = 10,index = "silhouette")
+```
+
+Vote majoritaire propose un regroupement en **9 classes**.
+
+Effectif des classes :
+
+```{r}
+kmeans.mfeatEff <- matrix(c(162, 183, 211, 230, 236, 372, 185, 188, 233 ),nrow = 1)
+kmeans.mfeatEff
+```
+
+**Average**
+
+Le vote majoritaire propose un regroupement en **9 classes**. 
+
+Effectif des classes :
+
+```{r}
+average.mfeatEff <- matrix(c(365, 61,  45, 609, 162, 366, 1, 357, 33, 1),nrow = 1)
+average.mfeatEff
+```
+
+**Ward**
+
+Le vote majoritaire propose un regroupement en **9 classes**.
+
+Effectif des classes :
+
+```{r}
+ward.mfeatEff <- matrix(c(406, 252, 219, 272, 204, 155, 176, 153, 163),nrow = 1)
+ward.mfeatEff
+```
+
+**Single**
+
+Le vote majoritaire propose un regroupement en **8 classes**. 
+
+Effectif des classes :
+
+```{r}
+single.mfeatEff <- matrix(c(1993, 1, 1,  1,  1,  1,  1,  1 ),nrow = 1)
+single.mfeatEff
+```
+
+**Complete**
+
+Le vote majoritaire propose un regroupement en **10 classes**.
+
+Effectif des classes :
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+complete.mfeatEff <- matrix(c(236, 64, 236, 591,  99,  73, 373, 122,  72, 134),nrow = 1)
+complete.mfeatEff
+```
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 
 ***
@@ -594,23 +748,86 @@ fviz_cluster(hcpc10.Jaffe,
 Mfeat data
 ----------
 
+<<<<<<< HEAD
 **Obs** : 
+=======
+Mode automatique HCPC nous propose 4 clusters distincts 
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-HCPC(pca.mfeat)
+Init avec 10 classes
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpc.mfeat <- HCPC(pca.mfeat,nb.clust = 10,graph = TRUE)
 ```
+
+Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+fviz_dend(hcpc.mfeat,
+          palette = "jco",               # Palette de couleur 
+          rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
+          rect_border = "jco"           # Couleur du rectangle
+          )
+```
+
+![](dendohcpc_mfeat.png)
+
+Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+fviz_cluster(hcpc.mfeat,
+             repel = TRUE,            # Evite le chevauchement des textes
+             show.clust.cent = TRUE, # Montre le centre des clusters
+             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             ggtheme = theme_minimal(),
+             main = "Factor map"
+             )
+```
+
+![](hcpcAuto_mfeat.png)
 
 ***
 
 Mnist data
 ----------
 
+<<<<<<< HEAD
 **Obs** : 
+=======
+Mode automatique HCPC nous propose 3 clusters distincts 
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-HCPC(pca.mnist)
+Init avec 10 classes
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpc.mnist <- HCPC(pca.mnist,nb.clust = 10,graph = TRUE)
 ```
 
+Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+fviz_dend(hcpc.mnist,
+          palette = "jco",               # Palette de couleur 
+          rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
+          rect_border = "jco"           # Couleur du rectangle
+          )
+```
+
+![](dendhcpc_mnist.png)
+
+Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+fviz_cluster(hcpc.mnist,
+             repel = TRUE,            # Evite le chevauchement des textes
+             show.clust.cent = TRUE, # Montre le centre des clusters
+             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             ggtheme = theme_minimal(),
+             main = "Factor map"
+             )
+```
+
+![](hcpcauto_mnist.png)
 
 ## 6. Spectral clustering
 
@@ -657,11 +874,20 @@ specc.jaffeEff
 Mfeat data
 ----------
 
+<<<<<<< HEAD
 **Obs** : 
+=======
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+n.cluster.mfeat = 10
+specc.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
+```
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-n.cluster.mfeat = 9
-spect.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
+Effectif des classes suite au spectrale
+
+```{r}
+specc.mfeatEff <- matrix(c(16, 45, 188, 395, 203, 160, 211, 212, 190, 380),nrow = 1)
+specc.mfeatEff
 ```
 
 ***
@@ -669,11 +895,20 @@ spect.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
 Mnist data
 ----------
 
+<<<<<<< HEAD
 **Obs** : 
+=======
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+n.cluster.mnist = 10
+specc.mnist = specc(x = mnist.data, n.cluster.mnist)
+```
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-n.cluster.mnist = 9
-spect.mnist = specc(x = mnist.data, n.cluster.mnist)
+Effectif des classes suite au spectrale
+
+```{r}
+specc.mnistEff <- matrix(c(573, 609,  77, 312, 304, 440, 315, 112, 417, 336),nrow = 1)
+specc.mnistEff
 ```
 
 
@@ -696,12 +931,20 @@ Jaffe data
 Mfeat data 
 ----------
 
+<<<<<<< HEAD
 **Proposition** : 
+=======
+Proposition : 10
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 Mnist data
 ----------
 
+<<<<<<< HEAD
 **Proposition** : 
+=======
+Proposition : 10
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 ## 8. Modèle de mélange
 
@@ -769,15 +1012,38 @@ mclust.jaffeEff
 Mfeat data
 ----------
 
+<<<<<<< HEAD
+=======
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+all <- mixmodGaussianModel()
+EM.mfeat <- mixmodCluster(as.data.frame(mfeat.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
+View(EM.mfeat@bestResult@partition)
+```
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclust.mfeat = Mclust(mfeat.data)
+```
 
 ***
 
 Mnist data
 ----------
 
+<<<<<<< HEAD
+=======
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+all <- mixmodGaussianModel()
+EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
+View(EM.jaffe@bestResult@partition)
+```
 
+>>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclust.jaffe = Mclust(jaffe.data)
+```
 
 ## 9. MclustDR
 
