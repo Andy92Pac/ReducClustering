@@ -210,13 +210,11 @@ Dim 1 = 6,19% variance expliquée (valeurs propres)
 Dim 2 = 4,48% variance expliquée (valeurs propres)
 
 
-=======
 Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
 
 
 ![](ACP_mnist.png)
 
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 fviz_eig(pca.mnist, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
 ```
@@ -233,10 +231,8 @@ fviz_pca_ind (pca.mnist, col.ind = "cos2",
 )
 ```
 
-<<<<<<< HEAD
 Graphe illisible du fait du nombre d'individus et des relations qu'il y a entre chaque.
-=======
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
+
 
 ![](ind_mnist2.png)
 ***
@@ -250,7 +246,6 @@ pca.mfeat <- PCA(mfeat.data)
 
 **Plan d'individus factorielle**: 
 
-<<<<<<< HEAD
 
 ![](PCA_mfeat.png)
 
@@ -258,12 +253,10 @@ pca.mfeat <- PCA(mfeat.data)
 
 Dim 1 = 16,13% variance expliquée (valeurs propres)
 Dim 2 = 9,76% variance expliquée (valeurs propres)
-=======
 
 
 ![](PCA_mfeat.png)
 
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 fviz_eig(pca.mfeat, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
@@ -280,10 +273,8 @@ fviz_pca_ind (pca.mfeat, col.ind = "cos2",
 )
 ```
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
+
 ![](ind_mfeat.png)
 
 ## 4. Clustering avec package Nbclust 
@@ -320,7 +311,7 @@ Résultats normalisé : Silhouette & non normalisé : CCC et DB. Difficulté de 
 
 Nous avons relançant kmeans avec la fonction nbclust juste avec les index cités au-dessus et stocker dans une variable le résultat de la meilleure partition avec 20 classes.
 
-**REM** : *les résultats provenant du tableau ci-dessus sont renseigné à titre indicatif non comparatif*
+**Rem** : *les résultats provenant du tableau ci-dessus sont renseigné à titre indicatif non comparatif*
 
 **Effectif des classes** :
 
@@ -369,7 +360,6 @@ Cependant selon les index Silhouette, Cindex et CCC proposent un clustering à 2
 ```{r}
 ward.coilEff <- matrix(c(371,159,109,225,216,72,72,72,72,72),nrow = 1)
 ward.coilEff
-#
 ```
 
 **20 classes** :
@@ -418,7 +408,7 @@ complete.coilEff20
 Jaffe data
 ----------
 
-Obs : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
+**Obs** : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
 
 Kmeans
 ------
@@ -486,16 +476,17 @@ complete.jaffeEff
 
 ***
 
-<<<<<<< HEAD
 Mfeat data
 ----------
-=======
+
+
 Mnist data
 ----------
 
-Obs : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
+**Obs** : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algorithmes. 
 
-**Kmeans**
+Kmeans
+------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeans.mnist = NbClust(mnist.data, method = "kmeans",min.nc = 5,max.nc = 10)
@@ -503,72 +494,76 @@ kmeans.mnist = NbClust(mnist.data, method = "kmeans",min.nc = 5,max.nc = 10)
 
 Vote majoritaire propose un regroupement en **8 classes**.
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 kmeans.mnistEff <- matrix(c(297, 275, 454, 523, 628, 441, 543, 334 ),nrow = 1)
 kmeans.mnistEff
 ```
 
-**Average**
+Average
+-------
 
 Le vote majoritaire propose un regroupement en ** 8 classes**. 
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 average.mnistEff <- matrix(c(311, 35, 3077, 41, 3, 26, 1,  1 ),nrow = 1)
 average.mnistEff
 ```
 
-**Ward**
+Ward
+----
 
 Le vote majoritaire propose un regroupement en ** 10 classes**.
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 ward.mnistEff <- matrix(c(394, 332, 580, 319, 315, 552, 276, 178, 214, 335),nrow = 1)
 ward.mnistEff
 ```
 
-**Single**
+Single
+------
 
 Le vote majoritaire propose un regroupement en **8 classes**. 
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 single.mnistEff <- matrix(c(3488, 1, 1,  1, 1,  1, 1,  1 ),nrow = 1)
 single.mnistEff
 ```
 
-**Complete**
+Complete
+--------
 
 Le vote majoritaire propose un regroupement en **8 classes**.
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 complete.mnistEff <- matrix(c( 468,  101,  85, 1929, 116,  469, 266, 61  ),nrow = 1)
 complete.mnistEff
 ```
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
-
 
 
 ***
 
-<<<<<<< HEAD
+
 Mnist data
 ----------
-=======
+
+
 Mfeat data
 ----------
 
-Obs : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
+**Obs** : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
 
-**Kmeans**
+Kmeans
+------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeans.mfeat = NbClust(mfeat.data, method = "kmeans",min.nc = 2,max.nc = 10,index = "silhouette")
@@ -576,57 +571,60 @@ kmeans.mfeat = NbClust(mfeat.data, method = "kmeans",min.nc = 2,max.nc = 10,inde
 
 Vote majoritaire propose un regroupement en **9 classes**.
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 kmeans.mfeatEff <- matrix(c(162, 183, 211, 230, 236, 372, 185, 188, 233 ),nrow = 1)
 kmeans.mfeatEff
 ```
 
-**Average**
+Average
+-------
 
 Le vote majoritaire propose un regroupement en **9 classes**. 
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 average.mfeatEff <- matrix(c(365, 61,  45, 609, 162, 366, 1, 357, 33, 1),nrow = 1)
 average.mfeatEff
 ```
 
-**Ward**
+Ward
+----
 
 Le vote majoritaire propose un regroupement en **9 classes**.
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 ward.mfeatEff <- matrix(c(406, 252, 219, 272, 204, 155, 176, 153, 163),nrow = 1)
 ward.mfeatEff
 ```
 
-**Single**
+Single
+------
 
 Le vote majoritaire propose un regroupement en **8 classes**. 
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r}
 single.mfeatEff <- matrix(c(1993, 1, 1,  1,  1,  1,  1,  1 ),nrow = 1)
 single.mfeatEff
 ```
 
-**Complete**
+Complete
+--------
 
 Le vote majoritaire propose un regroupement en **10 classes**.
 
-Effectif des classes :
+**Effectif des classes** :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 complete.mfeatEff <- matrix(c(236, 64, 236, 591,  99,  73, 373, 122,  72, 134),nrow = 1)
 complete.mfeatEff
 ```
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 
 ***
@@ -748,13 +746,10 @@ fviz_cluster(hcpc10.Jaffe,
 Mfeat data
 ----------
 
-<<<<<<< HEAD
-**Obs** : 
-=======
 Mode automatique HCPC nous propose 4 clusters distincts 
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-Init avec 10 classes
+
+**Init avec 10 classes**
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 hcpc.mfeat <- HCPC(pca.mfeat,nb.clust = 10,graph = TRUE)
@@ -791,13 +786,10 @@ fviz_cluster(hcpc.mfeat,
 Mnist data
 ----------
 
-<<<<<<< HEAD
-**Obs** : 
-=======
-Mode automatique HCPC nous propose 3 clusters distincts 
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
+**Mode automatique** : HCPC nous propose 3 clusters distincts 
 
-Init avec 10 classes
+
+**Init avec 10 classes**
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 hcpc.mnist <- HCPC(pca.mnist,nb.clust = 10,graph = TRUE)
@@ -874,16 +866,14 @@ specc.jaffeEff
 Mfeat data
 ----------
 
-<<<<<<< HEAD
-**Obs** : 
-=======
+
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 n.cluster.mfeat = 10
 specc.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
 ```
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-Effectif des classes suite au spectrale
+
+**Effectif** : 
 
 ```{r}
 specc.mfeatEff <- matrix(c(16, 45, 188, 395, 203, 160, 211, 212, 190, 380),nrow = 1)
@@ -895,16 +885,13 @@ specc.mfeatEff
 Mnist data
 ----------
 
-<<<<<<< HEAD
-**Obs** : 
-=======
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 n.cluster.mnist = 10
 specc.mnist = specc(x = mnist.data, n.cluster.mnist)
 ```
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
-Effectif des classes suite au spectrale
+
+**Effectif** :
 
 ```{r}
 specc.mnistEff <- matrix(c(573, 609,  77, 312, 304, 440, 315, 112, 417, 336),nrow = 1)
@@ -931,20 +918,13 @@ Jaffe data
 Mfeat data 
 ----------
 
-<<<<<<< HEAD
-**Proposition** : 
-=======
-Proposition : 10
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
+**Proposition** :  Proposition : 10
+
 
 Mnist data
 ----------
 
-<<<<<<< HEAD
-**Proposition** : 
-=======
-Proposition : 10
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
+**Proposition** : Proposition : 10
 
 ## 8. Modèle de mélange
 
@@ -1012,14 +992,9 @@ mclust.jaffeEff
 Mfeat data
 ----------
 
-<<<<<<< HEAD
-=======
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-all <- mixmodGaussianModel()
-EM.mfeat <- mixmodCluster(as.data.frame(mfeat.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
-View(EM.mfeat@bestResult@partition)
+EM.mfeat <- mixmodCluster(data.frame(pca.mfeat$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
@@ -1031,15 +1006,10 @@ mclust.mfeat = Mclust(mfeat.data)
 Mnist data
 ----------
 
-<<<<<<< HEAD
-=======
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-all <- mixmodGaussianModel()
-EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
-View(EM.jaffe@bestResult@partition)
+EM.mnist <- mixmodCluster(data.frame(pca.mnist$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
->>>>>>> 8e1ccb8aed78d7090f33626b5837ac2f3c015c48
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 mclust.jaffe = Mclust(jaffe.data)
