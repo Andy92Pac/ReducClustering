@@ -673,11 +673,25 @@ Proposition :
 **Coil data**
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EM.coil <- mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.coil <- mixmodCluster(data.frame(pca.coil$ind), 2:21,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
+
+Effectif des classes 
+
+```{r}
+em.coilEff <- matrix(c(72,160,72,178,33,99,80,37,49,60,66,72,61,21,72,72,71,100,42,23),nrow = 1)
+em.coilEff
+```
+
+Mclust
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 mclust.coil = Mclust(coil.data,G = 2:20)
+```
+
+```{r}
+mclust.coilEff <- matrix(c(2,19,22,43,10,15,19,9,47,27),nrow = 1)
+mclust.coilEff
 ```
 
 
@@ -686,15 +700,29 @@ mclust.coil = Mclust(coil.data,G = 2:20)
 **Jaffe data** 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 2:20,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+table(EM.jaffe@bestResult@partition)
 ```
 
+Effectif des classes 
+
+```{r}
+em.jaffeEff <- matrix(c(2,19,22,43,10,15,19,9,47,27),nrow = 1)
+em.jaffeEff
+```
+
+Mclust
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 mclust.jaffe = Mclust(jaffe.data,G = 2:10)
 ```
 
+Effectif des classes 
 
+```{r}
+mclust.jaffeEff <- matrix(c(24,22,22,19,22,20,20,27,21,16),nrow = 1)
+mclust.jaffeEff
+```
 
 ***
 
@@ -721,6 +749,12 @@ Obs :
 mclustdr.coil <- MclustDR(mclust.coil)
 ```
 
+Effectif des classes 
+
+```{r}
+mclustdr.coilEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
+mclustdr.coilEff
+```
 
 ***
 
@@ -728,6 +762,13 @@ mclustdr.coil <- MclustDR(mclust.coil)
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 mclustdr.jaffe <- MclustDR(mclust.jaffe)
+```
+
+Effectif des classes 
+
+```{r}
+mclustdr.jaffeEff <- matrix(c(24,22,22,19,22,20,20,27,21,16),nrow = 1)
+mclustdr.jaffeEff
 ```
 
 ## 10. Etudes comparatives des performances
@@ -875,6 +916,14 @@ Obs :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
+table(cluspca.coil$cluster)
+```
+
+Effectif des classes 
+
+```{r}
+cluspca.coilEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
+cluspca.coilEff
 ```
 
 ***
@@ -885,6 +934,13 @@ Obs :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 cluspca.jaffe <- cluspca(jaffe.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
+```
+
+Effectif des classes 
+
+```{r}
+cluspca.jaffeEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
+cluspca.jaffeEff
 ```
 
 ***
