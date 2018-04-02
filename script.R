@@ -7,6 +7,7 @@ library(mclust)
 library(factoextra)
 library(corrplot)
 library(cluster)
+library(ClusterR)
 
 coil <- readMat("data/DATA_MATLAB - Projet-master-MLDS/COIL20_1440n_1024d_20c.mat")
 jaffe <- readMat("data/DATA_MATLAB - Projet-master-MLDS/jaffe.mat")
@@ -64,7 +65,15 @@ single.coil.part = single.coil$Best.partition
 complete.coil = NbClust(data = coil.data, method = "complete",min.nc = 10,max.nc = 20)
 complete.coil.part = complete.coil$Best.partition
 
+kmeans.coilEff <- data.frame("1"=c(161,153,234,145,111,72,77,186,72,229))
+kmeans.coilEff <- matrix(c(161,153,234,145,111,72,77,186,72,229),nrow = 1)
 
+fviz_pca_ind (pca.coil, col.ind = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE # Évite le chevauchement de texte
+)
+
+kmeans.coilEff
 #5
 hcpc.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
 hcpc.coil$desc.ind
@@ -311,9 +320,74 @@ plot(mclustdr.mfeat)
 average.coil20 = NbClust(data = coil.data, method = "average",min.nc = 15,max.nc = 20,index = c("sdbw","db"))
 ward.coil20 = NbClust(data = coil.data, method = "ward.D",min.nc = 15,max.nc = 20,index = c("silhouette","cindex","ccc"))
 complete.coil20 = NbClust(data = coil.data, method = "complete",min.nc = 15,max.nc = 20,index = "silhouette")
+typeof(coil.data)
+coil.data <- as.factor(coil.data)
+coil.data
+jaffe.data <- as.data.frame(jaffe.data)
 
+all <- mixmodGaussianModel()
+list.models <- mixmodGaussianModel(listModels = c("Gaussian_p_L_C","Gaussian_p_L_Dk_A_Dk", "Gaussian_pk_Lk_B"))
+EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
+View(EM.jaffe@bestResult@partition)
 
+mclust.coil = Mclust(coil.data)
+cluspca.jaffe <- cluspca(jaffe.data,method = c("RKM","FKM"),nclus = 10,ndim = 2)
+table(as.integer(),as.integer(jaffe.label))
 
+png(file="KmeansCoilVsCoilLabel.txt")
+table(kmeans = kmeansPartition.coil,label = coil.label)
+dev.off()
+out <- capture.output(table(kmeans = kmeansPartition.coil,label = coil.label))
 
+cat(out, file="KmeansCoilVsCoilLabel.txt",sep = "n")
 
+hcpc10.Jaffe <- HCPC(pca.jaffe,nb.clust = 10,graph = TRUE)
 
+fviz_dend(hcpc10.Jaffe,
+          palette = "jco",               # Palette de couleur 
+          rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
+          rect_border = "jco"           # Couleur du rectangle
+)
+
+fviz_cluster(hcpc10.Jaffe,
+             repel = TRUE,            # Evite le chevauchement des textes
+             show.clust.cent = TRUE, # Montre le centre des clusters
+             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             ggtheme = theme_minimal(),
+             main = "Factor map"
+)
+
+hcpc20.coil <- HCPC(pca.coil,nb.clust = 20,graph = TRUE)
+
+fviz_dend(hcpc20.coil,
+          palette = "jco",               # Palette de couleur 
+          rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
+          rect_border = "jco"           # Couleur du rectangle
+)
+
+fviz_cluster(hcpc20.coil,
+             repel = TRUE,            # Evite le chevauchement des textes
+             show.clust.cent = TRUE, # Montre le centre des clusters
+             palette = "jco",         # Palette de couleurs
+             ggtheme = theme_minimal(),
+             main = "Factor map"
+)
+
+EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 20,dataType = "quantitative",criterion = "BIC")
+EM.jaffe@bestResult@partition
+
+all <- mixmodGaussianModel()
+EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"),2:10)
+EM.coil <- mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.coil@bestResult@partition
+
+mclust.jaffe = Mclust(jaffe.data)
+table(mclust.jaffe$classification)
+
+mclust.coil = Mclust(coil.data,G = 2:20)
+mclust.coil = Mclust(coil.data)
+
+mclust.coil = Mclust(coil.data )
+
+res = external_validation(as.vector(jaffe.label), as.numeric(mclust.jaffe$classification), method = "nmi", summary_stats = T)
+res
