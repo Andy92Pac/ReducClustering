@@ -215,21 +215,25 @@ mnist.label <- mnist$y
 pca.mnist <- PCA(mnist.data)
 
 # Q4 : NbClust
-kmeans.mnist = NbClust(data = mnist.data, method = "kmeans")
+kmeans.mnist = NbClust(data = mnist.data, method = "kmeans", min.nc = 8,max.nc = 10,index = "silhouette")
 kmeans.mnist.part = kmeans.mnist$Best.partition
+table(kmeans.mnist.part)
 
-average.mnist =NbClust(data = mnist.data, method = "average")
+average.mnist =NbClust(data = mnist.data, method = "average", min.nc = 8,max.nc = 10,index = "silhouette")
 average.mnist.part =average.mnist$Best.partition
+table(average.mnist.part)
 
-ward.mnist = NbClust(data = mnist.data, method = "ward.D")
+ward.mnist = NbClust(data = mnist.data, method = "ward.D", min.nc = 8,max.nc = 10,index = "silhouette")
 ward.mnist.part = ward.mnist$Best.partition
+table(ward.mnist.part)
 
-single.mnist = NbClust(data = mnist.data, method = "single")
+single.mnist = NbClust(data = mnist.data, method = "single", min.nc = 8,max.nc = 10,index = "silhouette")
 single.mnist.part = single.mnist$Best.partition
+table(single.mnist.part)
 
-complete.mnist = NbClust(data = mnist.data, method = "complete")
+complete.mnist = NbClust(data = mnist.data, method = "complete", min.nc = 8,max.nc = 10,index = "silhouette")
 complete.mnist.part = complete.mnist$Best.partition
-
+table(complete.mnist.part)
 
 #5
 HCPC(pca.mnist)
@@ -264,21 +268,25 @@ mfeat.label <- mfeat$y
 pca.mfeat <- PCA(mfeat.data)
 
 # Q4 : NbClust
-kmeans.mfeat = NbClust(data = mfeat.data, method = "kmeans")
+kmeans.mfeat = NbClust(data = mfeat.data, method = "kmeans", min.nc = 8,max.nc = 10)
 kmeans.mfeat.part = kmeans.mfeat$Best.partition
+table(kmeans.mfeat.part)
 
-average.mfeat =NbClust(data = mfeat.data, method = "average")
+average.mfeat =NbClust(data = mfeat.data, method = "average", min.nc = 8,max.nc = 10)
 average.mfeat.part =average.mfeat$Best.partition
+table(average.mfeat.part)
 
-ward.mfeat = NbClust(data = mfeat.data, method = "ward.D")
+ward.mfeat = NbClust(data = mfeat.data, method = "ward.D", min.nc = 8,max.nc = 10)
 ward.mfeat.part = ward.mfeat$Best.partition
+table(ward.mfeat.part)
 
-single.mfeat = NbClust(data = mfeat.data, method = "single")
+single.mfeat = NbClust(data = mfeat.data, method = "single", min.nc = 8,max.nc = 10)
 single.mfeat.part = single.mfeat$Best.partition
+table(single.mfeat.part)
 
-complete.mfeat = NbClust(data = mfeat.data, method = "complete")
+complete.mfeat = NbClust(data = mfeat.data, method = "complete", min.nc = 8,max.nc = 10)
 complete.mfeat.part = complete.mfeat$Best.partition
-
+table(complete.mfeat.part)
 
 #5
 HCPC(pca.mfeat)
