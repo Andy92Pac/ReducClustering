@@ -178,23 +178,78 @@ Il s'agit d'une représentation des individus catégorisé de par leurs valeurs 
 
 ***
 
-**Mnist data**
-
-Obs :
+Mnist data
+----------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 pca.mnist <- PCA(mnist.data)
 ```
 
+Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
+
+De même que pour l'ACP du jeu de données Coil on remarque une répartition des individu très distincte ce qui dans un premier temps peut nous renseigner sur le fait que les individus ne sont pas identiques ou colporte la même informations (présence de doublons)
+
+![](ACP_mnist.png)
+
+Méthode du coude : 
+Dim 1 = 31,4% variance expliquée (valeurs propres)
+Dim 2 = 15% variance expliquée (valeurs propres)
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+fviz_eig(pca.mnist, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
+```
+
+![](coude_mnist.png)
+
+Qualité de représentation : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+fviz_pca_ind (pca.mnist, col.ind = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE # Évite le chevauchement de texte
+)
+```
+
+Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarité sont regroupés. On remarque 6 foyers. (Nous précisons foyers sans aucun cas faire allusion à des partitions ou classes)
+
+![](ind_mnist.png)
 ***
 
-**Mfeat data**
-
-Obs :
+Mfeat data
+----------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 pca.mfeat <- PCA(mfeat.data)
 ```
+
+Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
+
+De même que pour l'ACP du jeu de données Coil on remarque une répartition des individu très distincte ce qui dans un premier temps peut nous renseigner sur le fait que les individus ne sont pas identiques ou colporte la même informations (présence de doublons)
+
+![](PCA_mfeat.png)
+
+Méthode du coude : 
+Dim 1 = 31,4% variance expliquée (valeurs propres)
+Dim 2 = 15% variance expliquée (valeurs propres)
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+fviz_eig(pca.mfeat, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
+```
+
+![](coude_mfeat.png)
+
+Qualité de représentation : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+fviz_pca_ind (pca.mfeat, col.ind = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE # Évite le chevauchement de texte
+)
+```
+
+Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarité sont regroupés. On remarque 6 foyers. (Nous précisons foyers sans aucun cas faire allusion à des partitions ou classes)
+
+![](ind_mfeat.png)
 
 ## 4. Clustering avec package Nbclust 
 
