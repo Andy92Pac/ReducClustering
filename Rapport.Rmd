@@ -195,9 +195,6 @@ Obs : Les données étant labelisé nous savons que le jeu de données coil cont
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 kmeans.coil = NbClust(data = coil.data, method = "kmeans",min.nc = 10,max.nc = 20)
 KmeansBestPartAllIndex = kmeans.coil$Best.partition
-
-kmeans.coil3Index = NbClust(data = coil.data, method = "kmeans",min.nc = 15,max.nc = 20,index = c("ccc","db","silhouette"))
-KmeansBestPart3Index = kmeans.coil3Index$Best.partition
 ```
 
 **Kmeans**
@@ -222,8 +219,17 @@ REM : *les résultats provenant du tableau ci-dessus sont renseigné à titre in
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = kmeans.coil$Best.partition)
+#161 153 234 145 111  72  77 186  72 229
+```
+
+20 classes :
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+kmeans.coil20 = NbClust(data = coil.data, method = "kmeans",min.nc = 15,max.nc = 20,index = c("ccc","db","silhouette"))
+table(effectif20 = kmeans.coil20$Best.partition)
+#47  18 127  96  74 136  48 103  72  26  64  34  35  58  59  72 144 72  83  72
 ```
 
 
@@ -234,9 +240,18 @@ Cependant selon les index Davies and Bouldin (db) et Sdbw proposent un clusterin
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = average.coil$Best.partition)
+#36 277  24   5 308  23   6   7 425  26  11   4 216  72
 ```
+
+20 classes :
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+average.coil20 = NbClust(data = coil.data, method = "average",min.nc = 15,max.nc = 20,index = c("sdbw","db"))
+table(effectif = average.coil20$Best.partition)
+```
+
 
 **Ward**
 
@@ -245,8 +260,17 @@ Cependant selon les index Silhouette, Cindex et CCC proposent un clustering à 2
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = ward.coil$Best.partition)
+#371 159 109 225 216  72  72  72  72  72
+```
+
+20 classes :
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+ward.coil20 = NbClust(data = coil.data, method = "ward.d",min.nc = 15,max.nc = 20,index = c("silhouette","cindex","ccc"))
+table(effectif = ward.coil20$Best.partition)
+#43  56  60 140  80  79 109  76  77  52  36  56  72  72  72  72  72 72  72  72
 ```
 
 **Single**
@@ -256,8 +280,9 @@ Aucun propose 20 clusters.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = single.coil$Best.partition)
+#1438    2
 ```
 
 **Complete**
@@ -267,8 +292,17 @@ Cependant selon l'index Silhouette propose un clustering à 20 classes.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = complete.coil$Best.partition)
+#39 186 212  48  67   5 162   4 365  36  24   4 288
+```
+
+20 classes :
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+complete.coil20 = NbClust(data = coil.data, method = "complete",min.nc = 15,max.nc = 20,index = "silhouette")
+table(effectif = complete.coil20$Best.partition)
+#30 100  60  41 152  39   5 158   4   7   4  86   9 365  28  36  24 4 102 186
 ```
 
 
@@ -289,8 +323,9 @@ Vote majoritaire propose un regroupement en **10 classes**.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = kmeans.jaffe$Best.partition)
+#22 19 13 27 28 21 16 20 36 11
 ```
 
 **Average**
@@ -299,18 +334,20 @@ Le vote majoritaire propose un regroupement en **9 classes**.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = average.jaffe$Best.partition)
+#98 29 19  3 19  2 27  3 13
 ```
 
 **Ward**
 
-Le vote majoritaire propose un regroupement en **7 classes**.
+Le vote majoritaire propose un regroupement en **10 classes**.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = ward.jaffe$Best.partition)
+#40 11 22 22 19 15 20 27 21 16
 ```
 
 **Single**
@@ -319,8 +356,9 @@ Le vote majoritaire propose un regroupement en **7 classes**.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = single.jaffe$Best.partition)
+#146  19   3   2  27   3  13
 ```
 
 **Complete**
@@ -329,8 +367,9 @@ Le vote majoritaire propose un regroupement en **6 classes**.
 
 Effectif des classes :
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 table(effectif = complete.jaffe$Best.partition)
+#101  48  19   2  27  16
 ```
 
 ***
@@ -496,7 +535,9 @@ specc.coil = specc(x = coil.data, n.cluster.coil)
 Effectif des classes suite au spectrale
 
 ```{r}
-#table(spect.coil$)
+specc.coil@size
+#68  72 105  72  76  72  41  18   6 162  32  72 103  90  62  27  27 214
+#75  46
 ```
 
 ***
@@ -511,7 +552,8 @@ specc.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 Effectif des classes suite au spectrale
 
 ```{r}
-#table(specc.jaffe$)
+specc.jaffe@size
+#17 14  3  4 77 13  5 32 45  3
 ```
 
 ***

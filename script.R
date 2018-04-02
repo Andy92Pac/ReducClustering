@@ -84,8 +84,9 @@ fviz_cluster(hcpc.coil,
 )
 
 #6
-n.cluster.coil = 5
-spect.coil = specc(x = coil.data, n.cluster.coil)
+n.cluster.coil = 20
+specc.coil = specc(x = coil.data, n.cluster.coil)
+specc.coil@size
 
 #7
 
@@ -182,9 +183,9 @@ fviz_cluster(hcpc.jaffe,
              main = "Factor map"
 )
 
-#6
+
 n.cluster.jaffe = 10
-spect.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
+specc.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 plot(jaffe$X, col = spect.jaffe)
 #7
 
@@ -299,8 +300,9 @@ mixmodCluster(mfeat.data, 3:10, dataType = "quantitative", models = mixmodMultin
 mclustdr.mfeat = MclustDR(mclust.mfeat)
 plot(mclustdr.mfeat)
 
-
-
+average.coil20 = NbClust(data = coil.data, method = "average",min.nc = 15,max.nc = 20,index = c("sdbw","db"))
+ward.coil20 = NbClust(data = coil.data, method = "ward.D",min.nc = 15,max.nc = 20,index = c("silhouette","cindex","ccc"))
+complete.coil20 = NbClust(data = coil.data, method = "complete",min.nc = 15,max.nc = 20,index = "silhouette")
 
 
 
