@@ -64,7 +64,7 @@ classe (pour un total de 2 000 modèles) ont été numérisés en binaire. Ce je
 
 ## 2. Chargement des données
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r}
 coil <- readMat("data/DATA_MATLAB - Projet-master-MLDS/COIL20_1440n_1024d_20c.mat")
 jaffe <- readMat("data/DATA_MATLAB - Projet-master-MLDS/jaffe.mat")
 mnist <- readMat("data/DATA_MATLAB - Projet-master-MLDS/MNIST5.mat")
@@ -78,7 +78,7 @@ Chaque datasets est au format .mat ils contiennent tous une colonne "Y" correspo
 
 Nous les avons assignées dans des différentes variables pour plus de faciliter et de clarté dans notre code.
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r}
 coil.data <- coil$X
 coil.label <- coil$y
 
@@ -100,7 +100,7 @@ Dans cette étude de l'ACP nous allons plus nous intéresser aux individus. Car 
 Coil data
 ---------
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 pca.coil <- PCA(coil.data)
 ```
 
@@ -109,7 +109,7 @@ Obs : ci-dessous on retrouve une visualisation du plan d'individus factorielle i
 
 ![](ACP_Coil.png)
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 fviz_eig(pca.coil, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
 ```
 
@@ -117,45 +117,61 @@ En se basant sur la méthode du coude nous nous assurons bien que les deux compo
 
 ![](coudeMethode.png)
 
-De plus on peux s'intéresser à la qualité de représentation du nuage d'individu. Un point est dit bien représenté sur un axe ou un plan factoriel si il est proche de sa projection sur l’axe ou le plan. S’il est éloigné, on dit qu’il est mal représenté. Indicateur =angle formé entre le point et sa projection sur l’axe. Lorsque l’angle est proche de 0, c'est-à-dire que le cosinus est proche de 1, l’individu est bien représenté. Dans le cas inverse, l’angle est proche de 90° et le cosinus est proche de 0
-
-Cependant au vu du nombre d'observations que l'on à afficher le graphe du cos2 par individu ne serait pas très pertinents car graphiquement parlant il ne serait pas possible de définir quel individu à une meilleure qualité de représentation qu'un autre. De même que pour la contributions des individus au composantes 1 et 2. 
-
-***
-
-Jaffe data
-----------
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-pca.jaffe <- PCA(jaffe.data)
-```
-
-Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
-
-De même que pour l'ACP du jeu de données Coil on remarque une répartition des individu très distincte ce qui dans un premier temps peut nous renseigner sur le fait que les individus ne sont pas identiques ou colporte la même informations (présence de doublons)
-
-![](ACP_jaffe.png)
-
-Méthode du coude : 
-Dim 1 = 31,4% variance expliquée (valeurs propres)
-Dim 2 = 15% variance expliquée (valeurs propres)
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-fviz_eig(pca.jaffe, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
-```
-
-![](coude_jaffe.png)
-
 Qualité de représentation : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+De plus on peux s'intéresser à la qualité de représentation du nuage d'individu. Un point est dit bien représenté sur un axe ou un plan factoriel si il est proche de sa projection sur l’axe ou le plan. S’il est éloigné, on dit qu’il est mal représenté. Indicateur =angle formé entre le point et sa projection sur l’axe. Lorsque l’angle est proche de 0, c'est-à-dire que le cosinus est proche de 1, l’individu est bien représenté. Dans le cas inverse, l’angle est proche de 90° et le cosinus est proche de 0
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 fviz_pca_ind (pca.jaffe, col.ind = "cos2",
               gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
               repel = TRUE # Évite le chevauchement de texte
 )
 ```
 
-Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarité sont regroupés. On remarque 6 foyers. (Nous précisons foyers sans aucun cas faire allusion à des partitions ou classes)
+Cependant comme on peut le voir sur le graphe ci-dessous, au vu du nombre d'observations que l'on à le graphe n'est pas très lisible. On remarque juste des masse de couleurs qui diffère en fonction de la valeurs du cos2 de chaque individu. Donc il est quasi-impossible de dire graphiquement parlant quel individu à une meilleure qualité de représentation qu'un autre. De même que pour la contributions des individus au composantes 1 et 2. 
+
+
+![](ind_coil.png)
+
+
+***
+
+Jaffe data
+----------
+
+Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
+
+De même que pour l'ACP du jeu de données Coil on remarque une répartition des individu très distincte ce qui dans un premier temps peut nous renseigner sur le fait que les individus ne sont pas identiques ou colporte la même informations (présence de doublons)
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+pca.jaffe <- PCA(jaffe.data)
+```
+
+![](ACP_jaffe.png)
+
+Méthode du coude : 
+
+Dim 1 = 31,4% variance expliquée (valeurs propres)
+Dim 2 = 15% variance expliquée (valeurs propres)
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+fviz_eig(pca.jaffe, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
+```
+
+![](coude_jaffe.png)
+
+Remarque nous aurions pu utiliser le critère de kaiser ou le critère de Scree-test pour trouver les axes qui nous intèressent.
+
+Qualité de représentation : 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+fviz_pca_ind (pca.jaffe, col.ind = "cos2",
+              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+              repel = TRUE # Évite le chevauchement de texte
+)
+```
+
+Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarité sont regroupés. On remarque 6 foyers. (Nous précisons les foyers ne font en  aucun cas allusion à des partitions ou classes)
 
 ![](ind_jaffe.png)
 
@@ -237,22 +253,20 @@ Il s'agit d'une représentation des individus catégorisé de par leurs valeurs 
 
 ## 4. Clustering avec package Nbclust 
 
-*En bref : Le package NbClust inclus une fonction NbClust() qui utilise 30 indices pour déterminer le nombre de clusters et propose d'utiliser le meilleur schéma de clusters à partir des différents résultats obtenus en faisant varier toutes les combinaisons de nombre de clusters (renseigné ou non au préalable par les param min.nc et max.nc) de mesures de distance et de méthodes de clusters.*
+*En bref* : Le package NbClust inclus une fonction NbClust() qui utilise 30 indices pour déterminer le nombre de clusters et propose d'utiliser le meilleur schéma de clusters à partir des différents résultats obtenus en faisant varier toutes les combinaisons de nombre de clusters (renseigné ou non au préalable par les param min.nc et max.nc) de mesures de distance et de méthodes de clusters.
 
-REM : Nous avons détaillé notre méthodologie de travail pour Coil data --> Kmeans afin de montrer comment nous sommes parvenus aux résultats obtenu ainsi que les deux différentes structure trouvées. Pour le reste nous avons juste affiché les résultats car la méthode est la même.
+*Rem* : Nous avons détaillé notre méthodologie de travail pour Coil data --> Kmeans afin de montrer comment nous sommes parvenus aux résultats obtenu ainsi que les deux différentes structure trouvées. Pour le reste nous avons juste affiché les résultats car la méthode est la même.
 
 Coil data
 ---------
 
-
 Obs : Les données étant labelisé nous savons que le jeu de données coil contient 20 classes. Le but à travers l'éxecutions de ces algorithmes est de trouver un modèle qui égale au mieux les classes des données
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-kmeans.coil = NbClust(data = coil.data, method = "kmeans",min.nc = 10,max.nc = 20)
-KmeansBestPartAllIndex = kmeans.coil$Best.partition
-```
-
 **Kmeans**
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+kmeans.coil = NbClust(data = coil.data, method = "kmeans",min.nc = 10,max.nc = 20)
+```
 
 Vote majoritaire propose un regroupement en **10 classes**. 
 Cependant selon les index Cubic CLustering Criterion (ccc), l'index Silhouette et l'index Davies and Bouldin (db) proposent un clustering à 20 classes. Avec comme score suivant
@@ -262,7 +276,7 @@ kmeansCoil20res <- data.frame(CCC="62.3",DB = "1.76",SILHOUETTE = "0.24",row.nam
 kmeansCoil20res
 ```
 
- Le point commun de ces index est qu'ils mesurent tous la qualité des clusters. Cependant il est assez complexe de les comparer car ils ne se basent pas sur les mêmes metrics pour ressortir leurs résultats. Ex : Plus l'index db est faible plus les données sont bien classés.  Il évalue la similarité intra classe et la différence inter classes. 
+Le point commun de ces index est qu'ils mesurent tous la qualité des clusters. Cependant il est assez complexe de les comparer car ils ne se basent pas sur les mêmes metrics pour ressortir leurs résultats. Ex : Plus l'index db est faible plus les données sont bien classés.  Il évalue la similarité intra classe et la différence inter classes. 
 
 Or que l'index silhouette lui va mesurer la distance entre chaque points de données avec le centre de gravité de la classe et vérifie que les points assigné à chaque centre de gravité sont bien les plus proches. 
 
@@ -274,17 +288,16 @@ REM : *les résultats provenant du tableau ci-dessus sont renseigné à titre in
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = kmeans.coil$Best.partition)
-#161 153 234 145 111  72  77 186  72 229
+```{r}
+kmeans.coilEff <- matrix(c(161,153,234,145,111,72,77,186,72,229),nrow = 1)
+kmeans.coilEff
 ```
 
 20 classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-kmeans.coil20 = NbClust(data = coil.data, method = "kmeans",min.nc = 15,max.nc = 20,index = c("ccc","db","silhouette"))
-table(effectif20 = kmeans.coil20$Best.partition)
-#47  18 127  96  74 136  48 103  72  26  64  34  35  58  59  72 144 72  83  72
+```{r}
+kmeans.coilEff20 <-matrix(c(47,18,127,96,74,136,48,103,72,26,64,34,35,58,59,72,144,72,83,  72),nrow = 1)
+kmeans.coilEff20
 ```
 
 
@@ -295,16 +308,16 @@ Cependant selon les index Davies and Bouldin (db) et Sdbw proposent un clusterin
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = average.coil$Best.partition)
-#36 277  24   5 308  23   6   7 425  26  11   4 216  72
+```{r}
+average.coilEff <- matrix(c(36,277,24,5,308,23,6,7,425,26,11,4,216,72),nrow = 1)
+average.coilEff
 ```
 
 20 classes :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 average.coil20 = NbClust(data = coil.data, method = "average",min.nc = 15,max.nc = 20,index = c("sdbw","db"))
-table(effectif = average.coil20$Best.partition)
+average.coil20
 ```
 
 
@@ -315,17 +328,17 @@ Cependant selon les index Silhouette, Cindex et CCC proposent un clustering à 2
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = ward.coil$Best.partition)
-#371 159 109 225 216  72  72  72  72  72
+```{r}
+ward.coilEff <- matrix(c(371,159,109,225,216,72,72,72,72,72),nrow = 1)
+ward.coilEff
+#
 ```
 
 20 classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-ward.coil20 = NbClust(data = coil.data, method = "ward.d",min.nc = 15,max.nc = 20,index = c("silhouette","cindex","ccc"))
-table(effectif = ward.coil20$Best.partition)
-#43  56  60 140  80  79 109  76  77  52  36  56  72  72  72  72  72 72  72  72
+```{r}
+ward.coilEff20 <- matrix(c(43,56,60,140,80,79,109,76,77,52,36,56,72,72,72,72,72,72,72,72),nrow = 1)
+ward.coilEff20
 ```
 
 **Single**
@@ -335,9 +348,9 @@ Aucun propose 20 clusters.
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = single.coil$Best.partition)
-#1438    2
+```{r}
+single.coilEff <- matrix(c(1438,2),nrow = 1)
+single.coilEff
 ```
 
 **Complete**
@@ -347,17 +360,16 @@ Cependant selon l'index Silhouette propose un clustering à 20 classes.
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = complete.coil$Best.partition)
-#39 186 212  48  67   5 162   4 365  36  24   4 288
+```{r}
+complete.coilEff <- matrix(c(39,186,212,48,67,5,162,4,365,36,24,4,288),nrow = 1)
+complete.coilEff
 ```
 
 20 classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-complete.coil20 = NbClust(data = coil.data, method = "complete",min.nc = 15,max.nc = 20,index = "silhouette")
-table(effectif = complete.coil20$Best.partition)
-#30 100  60  41 152  39   5 158   4   7   4  86   9 365  28  36  24 4 102 186
+```{r}
+complete.coilEff20 <-matrix(c(30,100,60,41,152,39,5,158,4,7,4,86,9,365,28 ,36,24,4,102,186),nrow = 1)
+complete.coilEff20
 ```
 
 
@@ -368,19 +380,19 @@ Jaffe data
 
 Obs : Les algorithmes sont lancés uniquement qu'en se basant sur l'index silhouette pour cause d'erreur avec d'autres index qui font planté la bonne éxecutions de ces algo. 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+**Kmeans**
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeans.jaffe = NbClust(jaffe$X, method = "kmeans",min.nc = 2,max.nc = 10,index = "silhouette")
 ```
-
-**Kmeans**
 
 Vote majoritaire propose un regroupement en **10 classes**.
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = kmeans.jaffe$Best.partition)
-#22 19 13 27 28 21 16 20 36 11
+```{r}
+kmeans.jaffeEff <- matrix(c(22,19,13,27,28,21,16,20,36,11),nrow = 1)
+kmeans.jaffeEff
 ```
 
 **Average**
@@ -389,9 +401,9 @@ Le vote majoritaire propose un regroupement en **9 classes**.
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = average.jaffe$Best.partition)
-#98 29 19  3 19  2 27  3 13
+```{r}
+average.jaffeEff <- matrix(c(98,29,19,3,19,2,27,3,13),nrow = 1)
+average.jaffeEff
 ```
 
 **Ward**
@@ -400,9 +412,9 @@ Le vote majoritaire propose un regroupement en **10 classes**.
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = ward.jaffe$Best.partition)
-#40 11 22 22 19 15 20 27 21 16
+```{r}
+ward.jaffeEff <- matrix(c(40,11,22,22,19,15,20,27,21,16),nrow = 1)
+ward.jaffeEff
 ```
 
 **Single**
@@ -411,9 +423,9 @@ Le vote majoritaire propose un regroupement en **7 classes**.
 
 Effectif des classes :
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = single.jaffe$Best.partition)
-#146  19   3   2  27   3  13
+```{r}
+single.jaffeEff <- matrix(c(146,19,3,2,27,3,13),nrow = 1)
+single.jaffeEff
 ```
 
 **Complete**
@@ -423,74 +435,40 @@ Le vote majoritaire propose un regroupement en **6 classes**.
 Effectif des classes :
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-table(effectif = complete.jaffe$Best.partition)
-#101  48  19   2  27  16
+complete.jaffeEff <- matrix(c(101,48,19,2,27,16),nrow = 1)
+complete.jaffeEff
 ```
 
 ***
 
 **Mfeat data**
 
-Obs : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-kmeans.mfeat = NbClust(data = mfeat.data, method = "kmeans")
-kmeans.mfeat.part = kmeans.mfeat$Best.partition
-
-average.mfeat =NbClust(data = mfeat.data, method = "average")
-average.mfeat.part =average.mfeat$Best.partition
-
-ward.mfeat = NbClust(data = mfeat.data, method = "ward.D")
-ward.mfeat.part = ward.mfeat$Best.partition
-
-single.mfeat = NbClust(data = mfeat.data, method = "single")
-single.mfeat.part = single.mfeat$Best.partition
-
-complete.mfeat = NbClust(data = mfeat.data, method = "complete")
-complete.mfeat.part = complete.mfeat$Best.partition
-```
 
 ***
 
 **mnist data** 
 
-Obs : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-kmeans.mnist = NbClust(data = mnist.data, method = "kmeans")
-kmeans.mnist.part = kmeans.mnist$Best.partition
-
-average.mnist =NbClust(data = mnist.data, method = "average")
-average.mnist.part =average.mnist$Best.partition
-
-ward.mnist = NbClust(data = mnist.data, method = "ward.D")
-ward.mnist.part = ward.mnist$Best.partition
-
-single.mnist = NbClust(data = mnist.data, method = "single")
-single.mnist.part = single.mnist$Best.partition
-
-complete.mnist = NbClust(data = mnist.data, method = "complete")
-complete.mnist.part = complete.mnist$Best.partition
-```
-
+***
 
 ## 5. Clustering à partir des deux premère composantes
 
-*En bref : L’approche HCPC (Hierarchical Clustering on Principal Components ou Classification Hiérarchique sur Composantes Principales) nous permet de combiner les trois méthodes standards utilisées dans les analyses de données multivariées c'est à dire les méthodes des composantes principales (ACP...); la classification ascendante hiérarchique et le partitionnement en k-moyennes.*
+*En bref* : L’approche HCPC (Hierarchical Clustering on Principal Components ou Classification Hiérarchique sur Composantes Principales) nous permet de combiner les trois méthodes standards utilisées dans les analyses de données multivariées c'est à dire les méthodes des composantes principales (ACP...); la classification ascendante hiérarchique et le partitionnement en k-moyennes.
 
-Rem : Dans cette partie nous avons paramétré la fonction HCPC à -1 afin qu'il nous propose pour lui le meilleure découpage du dendogramme. Nous aurions pu nous même ajuster le nombre de clusters mais il est plus interessant de comparer les méthodes et leurs déduction des meilleures cluster que d'initialisé par nous même. 
+*Rem* : Dans cette partie nous avons paramétré la fonction HCPC à -1 afin qu'il nous propose pour lui le meilleure découpage du dendogramme. Mais nous avons aussi initialisé au bon nombre de classes afin de voir pouvoir comparer par la suite les effectifs.
 
 **Coil data**
 
-HCPC propose 3 clusters distincts 
+Mode automatique : HCPC propose 3 clusters distincts
 
-```{r, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide',echo='FALSE'}
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
 hcpc.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
-```{r, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide',echo='FALSE'}
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
 fviz_dend(hcpc.coil,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
@@ -502,7 +480,7 @@ fviz_dend(hcpc.coil,
 
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
-```{r, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide',echo='FALSE'}
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
 fviz_cluster(hcpc.coil,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
@@ -514,20 +492,53 @@ fviz_cluster(hcpc.coil,
 
 ![](factorcoil3clus.png)
 
+Init avec 20 clusters
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+hcpc.coil <- HCPC(pca.coil,nb.clust = 20,graph = TRUE)
+```
+
+Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+fviz_dend(hcpc.coil,
+          palette = "jco",               # Palette de couleur 
+          rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
+          rect_border = "jco"           # Couleur du rectangle
+          )
+```
+
+![](Coildendo3cldus.png)
+
+Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
+fviz_cluster(hcpc.coil,
+             repel = TRUE,            # Evite le chevauchement des textes
+             show.clust.cent = TRUE, # Montre le centre des clusters
+             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             ggtheme = theme_minimal(),
+             main = "Factor map"
+             )
+```
+
+![](factorcoidl3clus.png)
 
 ***
 
 **Jaffe data** 
 
-HCPC propose 4 clusters distincts 
+Mode automatique HCPC nous propose 4 clusters distincts 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-hcpc.Jaffe <- HCPC(pca.jaffe,nb.clust = -1,graph = TRUE)
+Init avec 10 classes
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+hcpc.Jaffe <- HCPC(pca.jaffe,nb.clust = 10,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
-```{r, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide',echo='FALSE'}
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
 fviz_dend(hcpc.coil,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
@@ -539,7 +550,7 @@ fviz_dend(hcpc.coil,
 
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
-```{r, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, results='hide',echo='FALSE'}
+```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
 fviz_cluster(hcpc.coil,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
@@ -582,7 +593,7 @@ Pour réaliser notre spectral clustering nous utilisons le package kernlab qui c
 
 Nous devons initialisé notre algorithme par un nombre de clusters souhaité. Nous allons directement l'initialisé aux nombres de classes adéquat c'est à dire 20 pour le jeu de données Coil. Nous allons voir en terme d'effectif s'il arrive à classer les individus au mieux donc plus proche de la réalité.
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 n.cluster.coil = 20
 specc.coil = specc(x = coil.data, n.cluster.coil)
 ```
@@ -590,16 +601,15 @@ specc.coil = specc(x = coil.data, n.cluster.coil)
 Effectif des classes suite au spectrale
 
 ```{r}
-#specc.coil@size
-#68  72 105  72  76  72  41  18   6 162  32  72 103  90  62  27  27 214
-#75  46
+specc.CoilEff <- matrix(c(68,72,105,72,76,72,41,18,6,162,32,72,103,90,62,27,27,214,75,46),nrow = 1)
+specc.CoilEff
 ```
 
 ***
 
 **Jaffe data**
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 n.cluster.jaffe = 10
 specc.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 ```
@@ -607,8 +617,8 @@ specc.jaffe = specc(x = jaffe.data, n.cluster.jaffe)
 Effectif des classes suite au spectrale
 
 ```{r}
-#specc.jaffe@size
-#17 14  3  4 77 13  5 32 45  3
+specc.jaffeEff <- matrix(c(17,14,3,4,77,13,5,32,45,3),nrow = 1)
+specc.jaffeEff
 ```
 
 ***
@@ -638,16 +648,15 @@ spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 
 Pour choisir le nombre de classes nous allons nous basé sur ce que nous avons réalisé au préalable.
 
-Nous avons réalisé des méthodes qu'on pourrait qualifier d'automatique c'est à dire qu'on a laissé les algorithmes nous proposé selon leurs calculs un nombre de clusters ainsi qu'une répartition de la population. (Nbclust et HCPC). Puis nous avons initialisé par nous même le nombre de cluster avec le spectrale. 
+Nous avons réalisé des méthodes qu'on pourrait qualifier d'automatique c'est à dire qu'on a laissé les algorithmes nous proposer selon leurs calculs un nombre de clusters ainsi qu'une répartition de la population. (Nbclust et HCPC). Puis nous avons initialisé par nous même le nombre de cluster avec le spectrale.
 
- 
 **Coil data**
 
-Proposition : 
+Proposition : 20 classes 
 
 **Jaffe data** 
 
-Proposition : 
+Proposition : 10 classes
 
 **Mfeat data** 
 
@@ -659,15 +668,18 @@ Proposition :
 
 ## 8. Modèle de mélange
 
-**En bref : Dans les modèles de mélanges, fréquemment utilisés en classification automatique, on considère qu'un échantillon de données suit, non pas une loi de probabilité usuelle, mais une loi dont la fonction de densité est une densité mélange. N'importe quelle loi peut être utilisée, la plus courante est la loi normale dont la fonction de densité est une gaussienne. On parle alors de mélange gaussien**
+**En bref** : Dans les modèles de mélanges, fréquemment utilisés en classification automatique, on considère qu'un échantillon de données suit, non pas une loi de probabilité usuelle, mais une loi dont la fonction de densité est une densité mélange. N'importe quelle loi peut être utilisée, la plus courante est la loi normale dont la fonction de densité est une gaussienne. On parle alors de mélange gaussien
 
 **Coil data**
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-EM.Coil <- mixmodCluster(coil.data, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"),criterion = c("NEC","BIC","ICL"), strategy = new ("Strategy",algo = "EM"), nbCluster = 10)
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+all <- mixmodGaussianModel()
+EM.coil <- mixmodCluster(as.data.frame(coil.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 20)
+mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative",criterion = "BIC")
+View(EM.coil@bestResult@partition)
 ```
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 mclust.coil = Mclust(coil.data)
 ```
 
@@ -676,13 +688,15 @@ mclust.coil = Mclust(coil.data)
 
 **Jaffe data** 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-EM.Jaffe <- mixmodCluster(jaffe.data, dataType = "quantitative", models = mixmodMultinomialModel("Binary_pk_Ekj"),criterion = c("NEC","BIC","ICL"), strategy = new ("Strategy",algo = "EM"), nbCluster = 10)
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+all <- mixmodGaussianModel()
+EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
+View(EM.jaffe@bestResult@partition)
 ```
 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-mclust.coil = Mclust(coil.data)
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclust.jaffe = Mclust(jaffe.data)
 ```
 
 
@@ -693,9 +707,7 @@ mclust.coil = Mclust(coil.data)
 
 Obs : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-mclust.mfeat = Mclust(mfeat.data)
-```
+
 
 ***
 
@@ -703,33 +715,145 @@ mclust.mfeat = Mclust(mfeat.data)
 
 Obs : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-n.cluster.mnist = 9
-spect.mnist = specc(x = mnist.data, n.cluster.mnist)
-```
 
 ## 9. MclustDR
 
-**En bref : La fonction MclustDR est une méthode de réduction de dimension qui permet de visualiser la structure de classification ou de classification obtenue à partir d'un mélange fini de densités gaussiennes.**
+**En bref** : La fonction MclustDR est une méthode de réduction de dimension qui permet de visualiser la structure de classification ou de classification obtenue à partir d'un mélange fini de densités gaussiennes.
+
+**Coil data**
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclustdr.coil <- MclustDR(mclust.coil)
+```
+
+
+***
+
+**Jaffe data** 
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclustdr.jaffe <- MclustDR(mclust.jaffe)
+```
 
 ## 10. Etudes comparatives des performances
 
 **Coil data** 
 
-Obs : 
+>Kmeans
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-#table
+```{r}
+kmeansPartition.coil <- kmeans.coil20$Best.partition
+table(kmeans = kmeansPartition.coil,label = coil.label)
+```
+
+>Average
+
+```{r}
+averagePartition.coil <- average.coil$Best.partition
+table(average = averagePartition.coil,label = coil.label)
+```
+
+>Ward
+
+7 classes bien trouvées
+
+```{r}
+wardPartition.coil <- ward.coil20$Best.partition
+table(ward = wardPartition.coil,label = coil.label)
+```
+
+>Complete
+
+0 
+
+```{r}
+completePartition.coil <- complete.coil20$Best.partition
+table(complete = completePartition.coil,label = coil.label)
+```
+
+>HCPC
+
+```{r}
+hcpcPartition.coil <- hcpc.coil20
+table(hcpc = hcpcPartition.coil,label = coil.label)
+```
+
+>Spectrale
+
+```{r}
+speccPartition.coil <- specc.coil@.Data
+table(specc = speccPartition.coil,label = coil.label)
+```
+
+>EM
+
+```{r}
+EMPartition.coil <- EM.jaffe
+table(em = emPartition.coil,label = coil.label)
+```
+
+>Mclust
+
+```{r}
+MclustPartition.coil <- Mclust.jaffe
+table(Mclust = MclustPartition.coil,label = coil.label)
+```
+
+>MclustDR
+
+```{r}
+MclustDRpartition.coil <- MclustDR.jaffe
+table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
 ```
 
 ***
 
 **Jaffe data** 
 
-Obs : 
+>Kmeans
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-#table
+```{r}
+kmeansPartition.jaffe <- kmeans.jaffe$Best.partition
+table(kmeans = kmeansPartition.jaffe,label = jaffe.label)
+```
+
+>Ward
+
+7 classes bien trouvées
+
+```{r}
+wardPartition.jaffe <- ward.jaffe$Best.partition
+table(ward = wardPartition.jaffe,label = jaffe.label)
+```
+
+>Complete
+
+0 
+
+```{r}
+completePartition.jaffe <- complete.jaffe$Best.partition
+table(complete = completePartition.jaffe,label = jaffe.label)
+```
+
+>HCPC
+
+```{r}
+hcpcPartition.jaffe <- hcpc.jaffe
+table(hcpc = hcpcPartition.jaffe,label = jaffe.label)
+```
+
+>Spectrale
+
+```{r}
+speccPartition.jaffe <- specc.jaffe@.Data
+table(specc = speccPartition.jaffe,label = jaffe.label)
+```
+
+>Mixmod
+
+```{r}
+speccPartition.coil <- specc.coil@.Data
+table(specc = speccPartition.coil,label = coil.label)
 ```
 
 ***
@@ -740,8 +864,8 @@ Obs :
 
 Obs : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 1,)
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
 ```
 
 ***
@@ -750,8 +874,8 @@ cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 1,)
 
 Obs : 
 
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
-cluspca.jaffe <- cluspca(jaffe.data,method = c("RKM","FKM"),nclus = 1,)
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+cluspca.jaffe <- cluspca(jaffe.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
 ```
 
 ***
