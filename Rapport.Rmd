@@ -677,7 +677,7 @@ EM.coil <- mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative
 ```
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.coil = Mclust(coil.data)
+mclust.coil = Mclust(coil.data,G = 2:20)
 ```
 
 
@@ -691,7 +691,7 @@ EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 2:20,dataType = "quantitati
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.jaffe = Mclust(jaffe.data)
+mclust.jaffe = Mclust(jaffe.data,G = 2:10)
 ```
 
 
@@ -861,8 +861,8 @@ table(Mclust = MclustPartition.jaffe,label = jaffe.label)
 >MclustDR
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustDRpartition.jaffe <- MclustDR.jaffe
-table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
+MclustDRpartition.jaffe <- mclustdr.jaffe$class
+table(MclustDR = MclustDRpartition.jaffe,label = jaffe.label)
 ```
 
 ***
