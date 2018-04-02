@@ -463,7 +463,7 @@ complete.jaffeEff
 Mode automatique : HCPC propose 3 clusters distincts
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-hcpcAuto.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
+hcpc.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
@@ -673,10 +673,7 @@ Proposition :
 **Coil data**
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-all <- mixmodGaussianModel()
-EM.coil <- mixmodCluster(as.data.frame(coil.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 20)
-mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative",criterion = "BIC")
-View(EM.coil@bestResult@partition)
+EM.coil <- mixmodCluster(data.frame(pca.coil$ind), 2:20,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
@@ -689,9 +686,7 @@ mclust.coil = Mclust(coil.data)
 **Jaffe data** 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-all <- mixmodGaussianModel()
-EM.jaffe <- mixmodCluster(as.data.frame(jaffe.data), models = all, strategy = new("Strategy",algo = "EM"), nbCluster = 10)
-View(EM.jaffe@bestResult@partition)
+EM.jaffe <- mixmodCluster(data.frame(pca.jaffe$ind), 2:20,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
 
@@ -774,7 +769,7 @@ table(complete = completePartition.coil,label = coil.label)
 >HCPC
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-hcpcPartition.coil <- hcpc.coil20
+hcpcPartition.coil <- hcpc20.coil$data.clust$clust
 table(hcpc = hcpcPartition.coil,label = coil.label)
 ```
 
@@ -788,22 +783,22 @@ table(specc = speccPartition.coil,label = coil.label)
 >EM
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EMPartition.coil <- EM.jaffe
+emPartition.coil <- EM.coil@bestResult@partition
 table(em = emPartition.coil,label = coil.label)
 ```
 
 >Mclust
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustPartition.coil <- Mclust.jaffe
+MclustPartition.coil <- mclust.coil$classification
 table(Mclust = MclustPartition.coil,label = coil.label)
 ```
 
 >MclustDR
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustDRpartition.coil <- MclustDR.jaffe
-table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
+MclustDRpartition.coil <- MclustDR.coil
+table(MclustDR = MclustDRPartition.coil,label = coil.label)
 ```
 
 ***
@@ -838,7 +833,7 @@ table(complete = completePartition.jaffe,label = jaffe.label)
 >HCPC
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-hcpcPartition.jaffe <- hcpc.jaffe
+hcpcPartition.jaffe <- hcpc10.Jaffe$data.clust$clust
 table(hcpc = hcpcPartition.jaffe,label = jaffe.label)
 ```
 
@@ -849,11 +844,25 @@ speccPartition.jaffe <- specc.jaffe@.Data
 table(specc = speccPartition.jaffe,label = jaffe.label)
 ```
 
->Mixmod
+>EM
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-speccPartition.coil <- specc.coil@.Data
-table(specc = speccPartition.coil,label = coil.label)
+emPartition.jaffe <- EM.jaffe@bestResult@partition
+table(em = emPartition.jaffe,label = jaffe.label)
+```
+
+>Mclust
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.jaffe <- mclust.jaffe$classification
+table(Mclust = MclustPartition.jaffe,label = jaffe.label)
+```
+
+>MclustDR
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.jaffe <- MclustDR.jaffe
+table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
 ```
 
 ***
