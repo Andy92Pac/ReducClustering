@@ -408,13 +408,13 @@ complete.jaffeEff
 Mode automatique : HCPC propose 3 clusters distincts
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-hcpc.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
+hcpcAuto.coil <- HCPC(pca.coil,nb.clust = -1,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_dend(hcpc.coil,
+fviz_dend(hcpcAuto.coil,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
           rect_border = "jco"           # Couleur du rectangle
@@ -429,7 +429,7 @@ Visualisation des individus sur un plan factoriel regroupé en fonction des clas
 fviz_cluster(hcpc.coil,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
-             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             palette = "jco",         # Palette de couleurs,
              ggtheme = theme_minimal(),
              main = "Factor map"
              )
@@ -440,34 +440,34 @@ fviz_cluster(hcpc.coil,
 Init avec 20 clusters
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-hcpc.coil <- HCPC(pca.coil,nb.clust = 20,graph = TRUE)
+hcpc20.coil <- HCPC(pca.coil,nb.clust = 20,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_dend(hcpc.coil,
+fviz_dend(hcpc20.coil,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
           rect_border = "jco"           # Couleur du rectangle
           )
 ```
 
-![](Coildendo3cldus.png)
+![](Hcpc20.png)
 
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_cluster(hcpc.coil,
+fviz_cluster(hcpc20.coil,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
-             palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
+             palette = "jco",         # Palette de couleurs
              ggtheme = theme_minimal(),
              main = "Factor map"
              )
 ```
 
-![](factorcoidl3clus.png)
+![](Illisible.png)
 
 ***
 
@@ -478,13 +478,13 @@ Mode automatique HCPC nous propose 4 clusters distincts
 Init avec 10 classes
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-hcpc.Jaffe <- HCPC(pca.jaffe,nb.clust = 10,graph = TRUE)
+hcpc10.Jaffe <- HCPC(pca.jaffe,nb.clust = 10,graph = TRUE)
 ```
 
 Visualisation du dendrogramme généré avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_dend(hcpc.coil,
+fviz_dend(hcpc10.Jaffe,
           palette = "jco",               # Palette de couleur 
           rect = TRUE, rect_fill = TRUE, # Rectangle autour des groupes
           rect_border = "jco"           # Couleur du rectangle
@@ -496,7 +496,7 @@ fviz_dend(hcpc.coil,
 Visualisation des individus sur un plan factoriel regroupé en fonction des classes par couleurs avec prise en compte des clusters proposé par HCPC
 
 ```{r, eval=FALSE, message=FALSE, warning=FALSE, include=TRUE, results='hide',echo='FALSE'}
-fviz_cluster(hcpc.coil,
+fviz_cluster(hcpc10.Jaffe,
              repel = TRUE,            # Evite le chevauchement des textes
              show.clust.cent = TRUE, # Montre le centre des clusters
              palette = "jco",         # Palette de couleurs, voir ?ggpubr::ggpar
@@ -505,7 +505,7 @@ fviz_cluster(hcpc.coil,
              )
 ```
 
-![](hcpcAuto_Jaffe.png)
+![](jaffe10hcpc.png)
 
 ***
 
@@ -530,7 +530,7 @@ HCPC(pca.mnist)
 
 ## 6. Spectral clustering
 
-**En bref : le Spectral Clustering c’est trois étapes :Construire une matrice qui représente les affinités entre les individus; Projeter les individus sur un plan en fonction de leurs affinités et Appliquer une méthode classique de clustering (le plus souvent une K-means) sur ces nouvelles coordonnées.**
+**En bref **: le Spectral Clustering c’est trois étapes :Construire une matrice qui représente les affinités entre les individus; Projeter les individus sur un plan en fonction de leurs affinités et Appliquer une méthode classique de clustering (le plus souvent une K-means) sur ces nouvelles coordonnées.
 
 Pour réaliser notre spectral clustering nous utilisons le package kernlab qui contiens la fonction specc() qui est le kmeans spectrale
 
@@ -718,7 +718,7 @@ table(complete = completePartition.coil,label = coil.label)
 
 >HCPC
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 hcpcPartition.coil <- hcpc.coil20
 table(hcpc = hcpcPartition.coil,label = coil.label)
 ```
@@ -732,21 +732,21 @@ table(specc = speccPartition.coil,label = coil.label)
 
 >EM
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 EMPartition.coil <- EM.jaffe
 table(em = emPartition.coil,label = coil.label)
 ```
 
 >Mclust
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 MclustPartition.coil <- Mclust.jaffe
 table(Mclust = MclustPartition.coil,label = coil.label)
 ```
 
 >MclustDR
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 MclustDRpartition.coil <- MclustDR.jaffe
 table(MclustDR = MclustDRPartition.jaffe,label = jaffe.label)
 ```
@@ -782,7 +782,7 @@ table(complete = completePartition.jaffe,label = jaffe.label)
 
 >HCPC
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 hcpcPartition.jaffe <- hcpc.jaffe
 table(hcpc = hcpcPartition.jaffe,label = jaffe.label)
 ```
@@ -796,7 +796,7 @@ table(specc = speccPartition.jaffe,label = jaffe.label)
 
 >Mixmod
 
-```{r}
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 speccPartition.coil <- specc.coil@.Data
 table(specc = speccPartition.coil,label = coil.label)
 ```
