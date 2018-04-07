@@ -160,6 +160,8 @@ pca.jaffe <- PCA(jaffe.data)
 
 ![](ACP_jaffe.png)
 
+**Obs** : Visuellement, on peut vaguement distinguer 5 grands foyers.
+
 **Méthode du coude** : 
 
 Dim 1 = 31,4% variance expliquée (valeurs propres)
@@ -188,7 +190,6 @@ fviz_pca_ind (pca.jaffe, col.ind = "cos2",
 
 Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarités sont regroupés. On remarque 6 foyers. (Nous précisons les foyers ne font en  aucun cas allusion à des classes)
 
-
 ![](Ind_Jaffe.png)
 
 
@@ -200,8 +201,6 @@ Mnist data
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 pca.mnist <- PCA(mnist.data)
 ```
-
-**Obs** : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP. On peut vaguement distingué 4 grands foyers.
 
 ![](ind_mnist.png)
 
@@ -472,9 +471,6 @@ complete.jaffeEff
 
 ***
 
-Mfeat data
-----------
-
 
 Mnist data
 ----------
@@ -547,10 +543,6 @@ complete.mnistEff
 
 
 ***
-
-
-Mnist data
-----------
 
 
 Mfeat data
@@ -914,13 +906,13 @@ Jaffe data
 Mfeat data 
 ----------
 
-**Proposition** :  Proposition : 10
+**Proposition** : 10 classes
 
 
 Mnist data
 ----------
 
-**Proposition** : Proposition : 10
+**Proposition** : 10 classes
 
 ## 8. Modèle de mélange
 
@@ -989,12 +981,28 @@ Mfeat data
 ----------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EM.mfeat <- mixmodCluster(data.frame(pca.mfeat$ind), 1:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.mfeat <- mixmodCluster(data.frame(pca.mfeat$ind), 8:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
 
+**Effectif** :
+
+```{r}
+em.mfeatEff <- matrix(c(150, 116, 80, 495, 169, 238, 146, 245, 132, 229),nrow = 1)
+em.mfeatEff
+```
+
+**Mclust**
+
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.mfeat = Mclust(mfeat.data, G = 10)
+mclust.mfeat = Mclust(mfeat.data, G = 8:10)
+```
+
+**Effectif** : 
+
+```{r}
+mclust.mfeatEff <- matrix(c(1986,    2,    2,    2,    2,    2 , 2,  2 ),nrow = 1)
+mclust.mfeatEff
 ```
 
 ***
@@ -1003,12 +1011,26 @@ Mnist data
 ----------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EM.mnist <- mixmodCluster(data.frame(pca.mnist$ind), 1:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.mnist <- mixmodCluster(data.frame(pca.mnist$ind), 8:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+```
+
+**Effectif** :
+
+```{r}
+em.mfeatEff <- matrix(c(854, 310, 128, 102, 911, 215, 229, 236, 151, 359),nrow = 1)
+em.mfeatEff
 ```
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.jaffe = Mclust(jaffe.data)
+mclust.mnist = Mclust(mnist.data, G = 8:10)
+```
+
+**Effectif** : 
+
+```{r}
+mclust.mnistEff <- matrix(c(486, 584, 209, 424, 372, 133, 215, 561, 285, 226),nrow = 1)
+mclust.mnistEff
 ```
 
 ## 9. MclustDR
@@ -1043,6 +1065,36 @@ mclustdr.jaffe <- MclustDR(mclust.jaffe)
 ```{r}
 mclustdr.jaffeEff <- matrix(c(24,22,22,19,22,20,20,27,21,16),nrow = 1)
 mclustdr.jaffeEff
+```
+
+Mfeat data
+---------
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclustdr.mfeat <- MclustDR(mclust.mfeat)
+```
+
+**Effectif** :
+
+```{r}
+mclustdr.mfeatEff <- matrix(c(),nrow = 1)
+mclustdr.mfeatEff
+```
+
+***
+
+Mnist data
+----------
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+mclustdr.mnist <- MclustDR(mclust.mnist)
+```
+
+**Effectif** :   
+
+```{r}
+mclustdr.mnistEff <- matrix(c(),nrow = 1)
+mclustdr.mnistEff
 ```
 
 ## 10. Etudes comparatives des performances
