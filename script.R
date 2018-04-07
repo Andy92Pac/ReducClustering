@@ -248,7 +248,7 @@ table(complete.mnist.part)
 HCPC(pca.mnist)
 
 #6
-n.cluster.mnist = 9
+n.cluster.mnist = 10
 spect.mnist = specc(x = mnist.data, n.cluster.mnist)
 
 #7
@@ -301,8 +301,8 @@ table(complete.mfeat.part)
 HCPC(pca.mfeat)
 
 #6
-n.cluster.mfeat = 9
-spect.mfeat = specc(x = mnist.data, n.cluster.mfeat)
+n.cluster.mfeat = 10
+spect.mfeat = specc(x = mfeat.data, n.cluster.mfeat)
 
 #7
 table(as.data.frame(coil.label))

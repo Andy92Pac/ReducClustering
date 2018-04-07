@@ -1,5 +1,6 @@
 ---
 title: "Rapport"
+author: "Farid Ahamada & Andy Mpondo Black"
 output:
   pdf_document: default
   html_document: default
@@ -40,7 +41,7 @@ library(mclust)
 library(factoextra)
 library(cluster)
 library(clustrd)
-library(ClusterR)
+#library(ClusterR)
 ```
 
 
@@ -170,7 +171,7 @@ fviz_eig(pca.jaffe, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des vale
 ```
 
 
-![](coude_jaffe.png)
+![](Coude_jaffe.png)
 
 Remarque nous aurions pu utiliser le critère de kaiser ou le critère de Scree-test pour trouver les axes qui nous intèressent.
 
@@ -188,7 +189,7 @@ fviz_pca_ind (pca.jaffe, col.ind = "cos2",
 Il s'agit d'une représentation des individus catégorisé de par leurs valeurs du cos2. On remarque les points présentant des similarités sont regroupés. On remarque 6 foyers. (Nous précisons les foyers ne font en  aucun cas allusion à des classes)
 
 
-![](ind_jaffe.png)
+![](Ind_Jaffe.png)
 
 
 ***
@@ -200,10 +201,9 @@ Mnist data
 pca.mnist <- PCA(mnist.data)
 ```
 
-<<<<<<< HEAD
 **Obs** : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP. On peut vaguement distingué 4 grands foyers.
 
-![](ACP_mnist.png)
+![](ind_mnist.png)
 
 **Méthode du coude** : 
 
@@ -213,8 +213,6 @@ Dim 2 = 4,48% variance expliquée (valeurs propres)
 
 Obs : Ci-dessous on retrouve une visualisation du plan d'individus factorielle issu de l'ACP.(Le cercle de corrélation des variables n'est pas affiché du fait que l'on peux pas distinguer des variables pertinentes ou non dans notre analyse)
 
-
-![](ACP_mnist.png)
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
 fviz_eig(pca.mnist, addlabels = TRUE, ylim = c(0, 50),main = "Graphique des valeurs propres cumulées par dimensions")
@@ -248,15 +246,12 @@ pca.mfeat <- PCA(mfeat.data)
 **Plan d'individus factorielle**: 
 
 
-![](PCA_mfeat.png)
+![](ind_mfeat.png)
 
 **Méthode du coude** :
 
 Dim 1 = 16,13% variance expliquée (valeurs propres)
 Dim 2 = 9,76% variance expliquée (valeurs propres)
-
-
-![](PCA_mfeat.png)
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=FALSE,results='hide'}
@@ -274,9 +269,9 @@ fviz_pca_ind (pca.mfeat, col.ind = "cos2",
 )
 ```
 
+![](ind_mfeat2.png)
 
-
-![](ind_mfeat.png)
+Comme pour le jeu de données Mnist, la quantité élevée d'individu ainsi que de relations entre ceux ci rend compliquée la visualisation.
 
 ## 4. Clustering avec package Nbclust 
 
@@ -740,7 +735,7 @@ fviz_cluster(hcpc10.Jaffe,
              )
 ```
 
-![](jaffe10hcpc.png)
+![](hcpcAuto_Jaffe.png)
 
 ***
 
@@ -994,12 +989,12 @@ Mfeat data
 ----------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EM.mfeat <- mixmodCluster(data.frame(pca.mfeat$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.mfeat <- mixmodCluster(data.frame(pca.mfeat$ind), 1:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-mclust.mfeat = Mclust(mfeat.data)
+mclust.mfeat = Mclust(mfeat.data, G = 10)
 ```
 
 ***
@@ -1008,7 +1003,7 @@ Mnist data
 ----------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-EM.mnist <- mixmodCluster(data.frame(pca.mnist$ind), 2:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
+EM.mnist <- mixmodCluster(data.frame(pca.mnist$ind), 1:10,dataType = "quantitative",criterion = "BIC",strategy = new("Strategy",algo = "EM"))
 ```
 
 
@@ -1328,7 +1323,8 @@ mclustdr.jaffeScore
 
 **Mfeat data** 
 
->Kmeans
+Kmeans
+------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 kmeansPartition.mfeat <- kmeans.mfeat$Best.partition
@@ -1336,7 +1332,7 @@ kmeans.mfeat <- table(kmeans = kmeansPartition.mfeat,label = mfeat.label)
 kmeansscore = external_validation(as.vector(mfeat.label),as.numeric(kmeansPartition.mfeat), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
 kmeans.mfeatScore <- data.frame(specificity=0.9492,sensitivity=0.7288,precision=0.6131,recall=0.7288,NMI=0.724,entropy=0.2383,purity=0.7345,row.names = "score")
@@ -1344,7 +1340,8 @@ kmeans.mfeatScore
 ```
 
 
->Average
+Average
+-------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 averagePartition.mfeat <- average.mfeat$Best.partition
@@ -1352,7 +1349,7 @@ table(average = averagePartition.mfeat,label = mfeat.label)
 averagescore = external_validation(as.vector(mfeat.label),as.numeric(averagePartition.mfeat), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
 average.mfeatScore <- data.frame(specificity=0.8674,sensitivity=0.8021,precision=0.4007,recall=0.8021,NMI=0.6625,entropy=0.1804,purity=0.4885,row.names = "score")
@@ -1360,8 +1357,8 @@ average.mfeatScore
 ```
 
 
->Ward
-
+Ward
+----
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 wardPartition.mfeat <- ward.mfeat$Best.partition
@@ -1369,7 +1366,7 @@ table(ward = wardPartition.mfeat,label = mfeat.label)
 wardscore = external_validation(as.vector(mfeat.label),as.numeric(wardPartition.mfeat), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
 ward.mfeatScore <- data.frame(specificity=0.9485,sensitivity=0.7777,precision=0.6255,recall=0.7777,NMI=0.764,entropy=0.1935,purity=0.781,row.names = "score")
@@ -1377,8 +1374,8 @@ ward.mfeatScore
 ```
 
 
->Complete
-
+Complete
+--------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 completePartition.mfeat <- complete.mfeat$Best.partition
@@ -1386,99 +1383,73 @@ table(complete = completePartition.mfeat,label = mfeat.label)
 res = external_validation(as.vector(mfeat.label),as.numeric(completePartition.mfeat), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-complete.mfeatScore <- data.frame(specificity=0.9076,sensitivity=0.6931,precision=0.2803,recall=0.6931,NMI=0.6675,entropy=0.2019,purity=0.4451,row.names = "score")
+complete.mfeatScore <- data.frame(specificity=0.8726,sensitivity=0.4937,precision=0.3,recall=0.4937,NMI=0.4994,entropy=0.4114,purity=0.4675,row.names = "score")
 complete.mfeatScore
 ```
 
 
 
->HCPC
+HCPC
+----
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-hcpcPartition.mfeat <- hcpc20.mfeat$data.clust$clust
+hcpcPartition.mfeat <- hcpc.mfeat$data.clust$clust
 table(hcpc = hcpcPartition.mfeat,label = mfeat.label)
 res = external_validation(as.vector(mfeat.label),as.numeric(hcpcPartition.mfeat), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-hcpc.mfeatScore <- data.frame(specificity=0.9618,sensitivity=0.6202,precision=0.4574,recall=0.6202,NMI=0.7254,entropy=0.2432,purity=0.5944,row.names = "score")
+hcpc.mfeatScore <- data.frame(specificity=0.9273,sensitivity=0.5551,precision=0.4576,recall=0.5551,NMI=0.6019,entropy=0.3711,purity=0.6105,row.names = "score")
 hcpc.mfeatScore
 ```
 
 
->Spectrale
+Spectrale
+---------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-speccPartition.mfeat <- specc.mfeat@.Data
+speccPartition.mfeat <- spect.mfeat@.Data
 table(specc = speccPartition.mfeat,label = mfeat.label)
 res = external_validation(as.vector(mfeat.label),as.numeric(speccPartition.mfeat), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-specc.mfeatScore <- data.frame(specificity=0.9665,sensitivity=0.7984,precision=0.5531,recall=0.7984,NMI=0.8387,entropy=0.1219,purity=0.7326,row.names = "score")
+specc.mfeatScore <- data.frame(specificity=0.9705,sensitivity=0.8939,precision=0.7701,recall=0.8939,NMI=0.8743,entropy=0.1053,purity=0.865,row.names = "score")
 specc.mfeatScore
 ```
 
-
->EM
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-emPartition.mfeat <- EM.mfeat@bestResult@partition
-table(em = emPartition.mfeat,label = mfeat.label)
-res = external_validation(as.vector(mfeat.label),as.numeric(emPartition.mfeat), method = "nmi", summary_stats = T)
-```
-
-Mesure de performances
-
-```{r}
-em.mfeatScore <- data.frame(specificity=0.9747,sensitivity=0.6298,precision=0.5636,recall=0.6298,NMI=0.7696,entropy=0.2218,purity=0.7083,row.names = "score")
-em.mfeatScore
-```
-
-
->Mclust
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustPartition.mfeat <- mclust.mfeat$classification
-table(Mclust = MclustPartition.mfeat,label = mfeat.label)
-```
-
->MclustDR
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustDRpartition.mfeat <- MclustDR.mfeat
-table(MclustDR = MclustDRPartition.mfeat,label = mfeat.label)
-```
 
 ***
 
 
 **Mnist data** 
 
->Kmeans
+Kmeans
+------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-kmeansPartition.mnist <- kmeans.mnist20$Best.partition
+kmeansPartition.mnist <- kmeans.mnist$Best.partition
 kmeans.mnistMatConf <- table(kmeans = kmeansPartition.mnist,label = mnist.label)
 kmeansscore = external_validation(as.vector(mnist.label),as.numeric(kmeansPartition.mnist), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-kmeans.mnistScore <- data.frame(specificity=0.9702,sensitivity=0.6543,precision=0.5323,recall=0.6543,NMI=0.765,entropy=0.2118,purity=0.6438,row.names = "score")
+kmeans.mnistScore <- data.frame(specificity=0.9099,sensitivity=0.5282,precision=0.3946,recall=0.5282,NMI=0.4999,entropy=0.4154,purity=0.5648,row.names = "score")
 kmeans.mnistScore
 ```
 
 
->Average
+Average
+-------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 averagePartition.mnist <- average.mnist$Best.partition
@@ -1486,115 +1457,91 @@ table(average = averagePartition.mnist,label = mnist.label)
 averagescore = external_validation(as.vector(mnist.label),as.numeric(averagePartition.mnist), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-average.mnistScore <- data.frame(specificity=0.8373,sensitivity=0.835,precision=0.2103,recall=0.835,NMI=0.6358,entropy=0.106,purity=0.3222,row.names = "score")
+average.mnistScore <- data.frame(specificity=0.2314,sensitivity=0.915,precision=0.1169,recall=0.915,NMI=0.1973,entropy=0.0865,purity=0.21,row.names = "score")
 average.mnistScore
 ```
 
 
->Ward
+Ward
+----
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-wardPartition.mnist <- ward.mnist20$Best.partition
+wardPartition.mnist <- ward.mnist$Best.partition
 table(ward = wardPartition.mnist,label = mnist.label)
 wardscore = external_validation(as.vector(mnist.label),as.numeric(wardPartition.mnist), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-ward.mnistScore <- data.frame(specificity=0.9818,sensitivity=0.7433,precision=0.6811,recall=0.7433,NMI=0.6359,entropy=0.1469,purity=0.7771,row.names = "score")
+ward.mnistScore <- data.frame(specificity=0.9357,sensitivity=0.5433,precision=0.4844,recall=0.5433,NMI=0.6023,entropy=0.3797,purity=0.6209,row.names = "score")
 ward.mnistScore
 ```
 
 
->Complete
+Complete
+--------
 
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-completePartition.mnist <- complete.mnist20$Best.partition
+completePartition.mnist <- complete.mnist$Best.partition
 table(complete = completePartition.mnist,label = mnist.label)
 res = external_validation(as.vector(mnist.label),as.numeric(completePartition.mnist), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-complete.mnistScore <- data.frame(specificity=0.9076,sensitivity=0.6931,precision=0.2803,recall=0.6931,NMI=0.6675,entropy=0.2019,purity=0.4451,row.names = "score")
+complete.mnistScore <- data.frame(specificity=0.6781,sensitivity=0.5929,precision=0.1699,recall=0.5929,NMI=0.3259,entropy=0.3604,purity=0.3634,row.names = "score")
 complete.mnistScore
 ```
 
 
 
->HCPC
+HCPC
+----
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-hcpcPartition.mnist <- hcpc20.mnist$data.clust$clust
+hcpcPartition.mnist <- hcpc.mnist$data.clust$clust
 table(hcpc = hcpcPartition.mnist,label = mnist.label)
 res = external_validation(as.vector(mnist.label),as.numeric(hcpcPartition.mnist), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-hcpc.mnistScore <- data.frame(specificity=0.9618,sensitivity=0.6202,precision=0.4574,recall=0.6202,NMI=0.7254,entropy=0.2432,purity=0.5944,row.names = "score")
+hcpc.mnistScore <- data.frame(specificity=0.9042,sensitivity=0.4233,precision=0.3293,recall=0.4233,NMI=0.4173,entropy=0.5318,purity=0.4916,row.names = "score")
 hcpc.mnistScore
 ```
 
 
->Spectrale
+Spectrale
+---------
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-speccPartition.mnist <- specc.mnist@.Data
+speccPartition.mnist <- spect.mnist@.Data
 table(specc = speccPartition.mnist,label = mnist.label)
 res = external_validation(as.vector(mnist.label),as.numeric(speccPartition.mnist), method = "nmi", summary_stats = T)
 ```
 
-Mesure de performances
+**Mesure de performances**
 
 ```{r}
-specc.mnistScore <- data.frame(specificity=0.9665,sensitivity=0.7984,precision=0.5531,recall=0.7984,NMI=0.8387,entropy=0.1219,purity=0.7326,row.names = "score")
+specc.mnistScore <- data.frame(specificity=0.8996,sensitivity=0.7001,precision=0.4367,recall=0.7001,NMI=0.6389,entropy=0.2833,purity=0.6286,row.names = "score")
 specc.mnistScore
 ```
 
 
->EM
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-emPartition.mnist <- EM.mnist@bestResult@partition
-table(em = emPartition.mnist,label = mnist.label)
-res = external_validation(as.vector(mnist.label),as.numeric(emPartition.mnist), method = "nmi", summary_stats = T)
-```
-
-Mesure de performances
-
-```{r}
-em.mnistScore <- data.frame(specificity=0.9747,sensitivity=0.6298,precision=0.5636,recall=0.6298,NMI=0.7696,entropy=0.2218,purity=0.7083,row.names = "score")
-em.mnistScore
-```
-
-
->Mclust
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustPartition.mnist <- mclust.mnist$classification
-table(Mclust = MclustPartition.mnist,label = mnist.label)
-```
-
->MclustDR
-
-```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
-MclustDRpartition.mnist <- MclustDR.mnist
-table(MclustDR = MclustDRPartition.mnist,label = mnist.label)
-```
+Pour le jeu de données Coil l'algorithme de Ward est celui qui fit au mieux les data tandis que pour le jeu de données Jaffe il s'agit de l'agorithme Mclust qui fit le mieux les data et arrive à perçevoir la meilleure structure des classes. En ce qui concerne le jeu de données, l'algorithme de Ward est également le plus approprié. Enfin, pour le jeu de données Mnist, notre étude nous laisse penser que Ward est une nouvelle fois la méthode la plus efficace.
 
 ***
 
 
-## 11. Cluspa
+## 11. Cluspca
 
 Coil data
 --------
@@ -1602,7 +1549,6 @@ Coil data
 
 ```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
 cluspca.coil <- cluspca(coil.data,method = c("RKM","FKM"),nclus = 10,ndim = 2,alpha = 1)
-table(cluspca.coil$cluster)
 ```
 
 **Effectif** :
@@ -1629,6 +1575,6 @@ cluspca.jaffeEff <- matrix(c(38,29,29,21,20,19,19,17,17,4),nrow = 1)
 cluspca.jaffeEff
 ```
 
-***
 
+***
 
