@@ -1077,7 +1077,7 @@ mclustdr.mfeat <- MclustDR(mclust.mfeat)
 **Effectif** :
 
 ```{r}
-mclustdr.mfeatEff <- matrix(c(),nrow = 1)
+mclustdr.mfeatEff <- matrix(c(1986,  2, 2,  2, 2, 2, 2, 2 ),nrow = 1)
 mclustdr.mfeatEff
 ```
 
@@ -1093,7 +1093,7 @@ mclustdr.mnist <- MclustDR(mclust.mnist)
 **Effectif** :   
 
 ```{r}
-mclustdr.mnistEff <- matrix(c(),nrow = 1)
+mclustdr.mnistEff <- matrix(c(486, 584, 209, 424, 372, 133, 215, 561, 285, 226),nrow = 1)
 mclustdr.mnistEff
 ```
 
