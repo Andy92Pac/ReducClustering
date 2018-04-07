@@ -1017,8 +1017,8 @@ EM.mnist <- mixmodCluster(data.frame(pca.mnist$ind), 8:10,dataType = "quantitati
 **Effectif** :
 
 ```{r}
-em.mfeatEff <- matrix(c(854, 310, 128, 102, 911, 215, 229, 236, 151, 359),nrow = 1)
-em.mfeatEff
+em.mnistEff <- matrix(c(854, 310, 128, 102, 911, 215, 229, 236, 151, 359),nrow = 1)
+em.mnistEff
 ```
 
 
