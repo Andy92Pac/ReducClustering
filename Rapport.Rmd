@@ -1318,8 +1318,9 @@ mclustdr.jaffeScore
 ```
 
 
-***
+Pour le jeu de donnée **Coil** l'algorithme de Ward est celui qui fit au mieux les data tandis que pour le jeu de donnée **Jaffe** il s'agit de l'agorithme Mclust qui fit le mieux les data et arrive à perçevoir la meilleure structure des classes.
 
+***
 
 **Mfeat data** 
 
@@ -1542,6 +1543,7 @@ Pour le jeu de données Coil l'algorithme de Ward est celui qui fit au mieux les
 
 
 ## 11. Cluspca
+
 
 Coil data
 --------
