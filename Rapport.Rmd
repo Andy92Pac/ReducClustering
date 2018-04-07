@@ -1370,8 +1370,6 @@ mclustdr.jaffeScore
 ```
 
 
-Pour le jeu de donnée **Coil** l'algorithme de Ward est celui qui fit au mieux les data tandis que pour le jeu de donnée **Jaffe** il s'agit de l'agorithme Mclust qui fit le mieux les data et arrive à perçevoir la meilleure structure des classes.
-
 ***
 
 **Mfeat data** 
@@ -1477,6 +1475,58 @@ res = external_validation(as.vector(mfeat.label),as.numeric(speccPartition.mfeat
 specc.mfeatScore <- data.frame(specificity=0.9705,sensitivity=0.8939,precision=0.7701,recall=0.8939,NMI=0.8743,entropy=0.1053,purity=0.865,row.names = "score")
 specc.mfeatScore
 ```
+
+
+EM
+--
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+emPartition.mfeat <- EM.mfeat@bestResult@partition
+table(em = emPartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(emPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+**Mesure de performances**
+
+```{r}
+em.mfeatScore <- data.frame(specificity=0.9059,sensitivity=0.46,precision=0.3509,recall=0.46,NMI=0.5162,entropy=0.4416,purity=0.556,row.names = "score")
+em.mfeatScore
+```
+
+
+Mclust
+------
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.mfeat <- mclust.mfeat$classification
+table(Mclust = MclustPartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(MclustPartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+**Mesure de performances**
+
+```{r}
+mclust.mfeatScore <- data.frame(specificity=0.9861,sensitivity=0.014,precision=0.0996,recall=0.9861,NMI=0.0137,entropy=0.017,purity=0.107,row.names = "score")
+mclust.mfeatScore
+```
+
+
+MclustDR
+--------
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.mfeat <- mclustdr.mfeat$class
+table(MclustDR = MclustDRpartition.mfeat,label = mfeat.label)
+res = external_validation(as.vector(mfeat.label),as.numeric(MclustDRpartition.mfeat), method = "nmi", summary_stats = T)
+```
+
+**Mesure de performances**
+
+```{r}
+mclustdr.mfeatScore <- data.frame(specificity=0.014,sensitivity=0.9861,precision=0.0996,recall=0.9861,NMI=0.0137,entropy=0.017,purity=0.107,row.names = "score")
+mclustdr.mfeatScore
+```
+
 
 
 ***
@@ -1587,6 +1637,59 @@ res = external_validation(as.vector(mnist.label),as.numeric(speccPartition.mnist
 specc.mnistScore <- data.frame(specificity=0.8996,sensitivity=0.7001,precision=0.4367,recall=0.7001,NMI=0.6389,entropy=0.2833,purity=0.6286,row.names = "score")
 specc.mnistScore
 ```
+
+
+EM
+--
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+emPartition.mnist <- EM.mnist@bestResult@partition
+table(em = emPartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(emPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+**Mesure de performances**
+
+```{r}
+em.mnistScore <- data.frame(specificity=0.8495,sensitivity=0.2703,precision=0.1664,recall=0.2703,NMI=0.2387,entropy=0.6593,purity=0.3139,row.names = "score")
+em.mnistScore
+```
+
+
+Mclust
+------
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustPartition.mnist <- mclust.mnist$classification
+table(Mclust = MclustPartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(MclustPartition.mnist), method = "nmi", summary_stats = T)
+```
+
+**Mesure de performances**
+
+```{r}
+mclust.mnistScore <- data.frame(specificity=0.92,sensitivity=0.4641,precision=0.3919,recall=0.4641,NMI=0.4848,entropy=0.484,purity=0.5725,row.names = "score")
+mclust.mnistScore
+```
+
+
+MclustDR
+--------
+
+```{r,eval=FALSE, message=FALSE, warning=FALSE, include=TRUE,results='hide'}
+MclustDRpartition.mnist <- mclustdr.mnist$class
+table(MclustDR = MclustDRpartition.mnist,label = mnist.label)
+res = external_validation(as.vector(mnist.label),as.numeric(MclustDRpartition.mnist), method = "nmi", summary_stats = T)
+```
+
+**Mesure de performances**
+
+```{r}
+mclustdr.mnistScore <- data.frame(specificity=0.92,sensitivity=0.4641,precision=0.3919,recall=0.4641,NMI=0.4848,entropy=0.484,purity=0.5725,row.names = "score")
+mclustdr.mnistScore
+```
+
+
 
 
 Pour le jeu de données Coil l'algorithme de Ward est celui qui fit au mieux les data tandis que pour le jeu de données Jaffe il s'agit de l'agorithme Mclust qui fit le mieux les data et arrive à perçevoir la meilleure structure des classes. En ce qui concerne le jeu de données, l'algorithme de Ward est également le plus approprié. Enfin, pour le jeu de données Mnist, notre étude nous laisse penser que Ward est une nouvelle fois la méthode la plus efficace.
